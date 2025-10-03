@@ -121,32 +121,89 @@ table.insert(lvim.plugins, {
 })
 
 table.insert(lvim.plugins, {
-  "ptdewey/yankbank-nvim",
+  "AckslD/nvim-neoclip.lua",
   lazy = false,
   dependencies = {
     {
       "kkharji/sqlite.lua",
       lazy = true,
     },
+    {
+      "nvim-telescope/telescope.nvim",
+      lazy = true,
+    },
   },
   config = function()
-    local ok, yankbank = pcall(require, 'yankbank')
+    local ok, neoclip = pcall(require, 'neoclip')
     if not ok then
       return
     end
 
-    yankbank.setup({
-      max_entries = 15,
-      num_behavior = 'jump',
-      focus_gain_poll = true,
-      persist_type = 'sqlite',
-      registers = {
-        yank_register = '+',
+    neoclip.setup({
+      history = 1000,
+      enable_persistent_history = true,
+      length_limit = 1048576,
+      continuous_sync = false,
+      db_path = vim.fn.stdpath("data") .. "/databases/neoclip.sqlite3",
+      filter = nil,
+      preview = true,
+      prompt = nil,
+      default_register = '"',
+      default_register_macros = 'q',
+      enable_macro_history = true,
+      content_spec_column = false,
+      disable_keycodes_parsing = false,
+      dedent_picker_display = false,
+      initial_mode = 'insert',
+      on_select = {
+        move_to_front = false,
+        close_telescope = true,
+      },
+      on_paste = {
+        set_reg = false,
+        move_to_front = false,
+        close_telescope = true,
+      },
+      on_replay = {
+        set_reg = false,
+        move_to_front = false,
+        close_telescope = true,
+      },
+      on_custom_action = {
+        close_telescope = true,
+      },
+      keys = {
+        telescope = {
+          i = {
+            select = '<cr>',
+            paste = '<c-p>',
+            paste_behind = '<c-k>',
+            replay = '<c-q>',
+            delete = '<c-d>',
+            edit = '<c-e>',
+            custom = {},
+          },
+          n = {
+            select = '<cr>',
+            paste = 'p',
+            paste_behind = 'P',
+            replay = 'q',
+            delete = 'd',
+            edit = 'e',
+            custom = {},
+          },
+        },
       },
     })
 
-    vim.keymap.set('n', '<leader>y', '<cmd>YankBank<cr>', {
-      desc = 'Open YankBank',
+    -- Keybindings for neoclip
+    vim.keymap.set('n', '<leader>y', '<cmd>Telescope neoclip<cr>', {
+      desc = 'Open Neoclip (clipboard history)',
+      silent = true,
+    })
+    
+    vim.keymap.set('n', '<leader>ym', '<cmd>Telescope macroscope<cr>', {
+      desc = 'Open Macroscope (macro history)',
       silent = true,
     })
   end,
