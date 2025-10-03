@@ -222,8 +222,8 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
 fi
 
 alias pdf='zathura'
-alias lv='lvim'
-alias nv='lvim'
+alias lv='nvim'
+alias nv='nvim'
 
 eval "$(zoxide init zsh)"
 
@@ -251,5 +251,5 @@ export PATH="$HOME/.local/bin:$PATH"
 export BROWSER="osascript -e \"tell application \\\"Zen\\\" to make new document with properties {URL:\\\"%s\\\"}\""
 
 # Suppress Neovim deprecation warnings
-export NVIM_APPNAME="lvim"
+export NVIM_APPNAME="nvim"
 export VIMRUNTIME="/opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime"

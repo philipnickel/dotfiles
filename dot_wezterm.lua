@@ -14,10 +14,10 @@ config.send_composed_key_when_right_alt_is_pressed = true
 
 -- Window appearance
 config.window_decorations = "RESIZE"
-config.window_background_opacity = 0.75
-config.macos_window_background_blur = 35
+-- config.window_background_opacity = 0.75
+-- config.macos_window_background_blur = 35
 config.initial_rows = 50
-config.initial_cols = 200
+-- config.initial_cols = 200
 
 -- Remove padding around terminal content
 config.window_padding = {
