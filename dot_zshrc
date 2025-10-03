@@ -1,0 +1,255 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+
+# Path to your oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+export ZSH_CACHE_DIR="$ZSH/cache"
+export ZSH_COMPDUMP="$ZSH_CACHE_DIR/.zcompdump-$HOST-$ZSH_VERSION"
+export DISABLE_UPDATE_PROMPT=true
+export DISABLE_AUTO_UPDATE=true
+export ZSH_DISABLE_COMPFIX=true
+
+# Set oh-my-zsh configuration variables to prevent warnings
+export CASE_SENSITIVE="false"
+export ENABLE_CORRECTION="false"
+export HISTFILE="$HOME/.zsh_history"
+export DISABLE_MAGIC_FUNCTIONS="false"
+export INSIDE_EMACS=""
+export DISABLE_LS_COLORS="false"
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="robbyrussell"
+
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+
+# Uncomment the following line to change how often to auto-update (in days).
+# zstyle ':omz:update' frequency 13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+ZSH_CUSTOM="$ZSH/custom"
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(
+  git
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+  you-should-use
+)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+plugins=(
+  git
+  zsh-syntax-highlighting
+  zsh-autosuggestions
+  zsh-bat
+)
+
+
+source $HOME/.bash_aliases
+
+
+######### Fuzzy find ############
+# Set up fzf key bindings and fuzzy completion
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Define a function 'rgf' for ripgrep-fzf search
+rgf() {
+    # Check if bat is installed for enhanced previews, otherwise fall back to cat
+    local PREVIEW_CMD="cat"
+    if command -v bat &> /dev/null; then
+        PREVIEW_CMD="bat --color=always"
+    else
+        echo "Warning: 'bat' not found. Install it for better previews (e.g., 'brew install bat')." >&2
+    fi
+
+    # Ensure fzf-tmux is preferred for a floating window if tmux is running
+    local -a FZF_CMD=(fzf)
+    if command -v fzf-tmux &> /dev/null && [ -n "$TMUX" ]; then
+        FZF_CMD=(fzf-tmux -p) # -p for popup window
+    fi
+
+    # The core fzf + ripgrep command
+    # - --bind 'change:reload(...)': As you type (query changes), ripgrep is re-run
+    #   - `rg --column --line-number --no-heading --color=always --smart-case --fixed-strings {q} || true`
+    #     - `--column`: Include column number in output (useful but not used in this specific nvim binding for simplicity).
+    #     - `--line-number`: Include line number. Essential for opening files at specific lines.
+    #     - `--no-heading`: Don't print filename headers (fzf handles this better in preview).
+    #     - `--color=always`: Force color output, which fzf's `--ansi` option then interprets.
+    #     - `--smart-case`: Search case-insensitively unless the pattern contains uppercase letters.
+    #     - `--fixed-strings`: Treat pattern as a literal string, not a regex. Remove for regex search.
+    #     - `{q}`: This is fzf's placeholder for the current query string you are typing.
+    #     - `|| true`: Prevents fzf from erroring out if ripgrep finds no matches (ripgrep exits with 1).
+    # - --ansi: Tells fzf to interpret ANSI color codes from ripgrep.
+    # - --preview "$PREVIEW_CMD {1} --highlight-line {2}": Shows content of the selected file.
+    #   - `{1}`: The first field extracted by `--delimiter :` (which is the filename).
+    #   - `{2}`: The second field (line number).
+    #   - `--highlight-line {2}`: `bat` specific, highlights the matching line.
+    # - --delimiter : --nth 3..: Parses ripgrep's output.
+    #   - ripgrep output format: `filename:line_number:column_number:content` (with `--column`)
+    #   - `--delimiter :`: Splits each line by colon.
+    #   - `--nth 3..`: Displays only the content starting from the 3rd field. This hides filename and line number in the main fzf window, keeping it clean.
+    # - --bind 'enter:execute(nvim +{2} {1})': When you press Enter, execute this command.
+    #   - `nvim +{2} {1}`: Opens the file (`{1}`) in Neovim at the specified line number (`{2}`).
+    #     Adjust `nvim` to your preferred editor (e.g., `vim`, `code --goto`).
+    # - --header: Provides helpful text at the top of the fzf window.
+    "${FZF_CMD[@]}" \
+        --bind "change:reload(rg --column --line-number --no-heading --color=always --smart-case --fixed-strings {q} || true)" \
+        --ansi \
+        --preview "$PREVIEW_CMD {1} --highlight-line {2}" \
+        --delimiter : \
+        --nth 3.. \
+        --bind 'enter:execute(nvim +{2} {1})' \
+        --header "Type to search with ripgrep. Enter to open in nvim. (C-d to cancel)"
+}
+
+# Add a simple alias to quickly get to your dotfiles directory and use rgf
+alias dotfrg='cd /Users/philipnickel/.local/share/chezmoi && rgf' # Adjust ~/.dotfiles to your actual dotfiles path
+
+
+
+
+
+
+export DYLD_LIBRARY_PATH="$(brew --prefix)/lib:$DYLD_LIBRARY_PATH"
+
+
+# VS Code CLI
+export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+export LUA_PATH="/Users/philipnickel/.luarocks/share/lua/5.1/?.lua;/Users/philipnickel/.luarocks/share/lua/5.1/?/init.lua;$LUA_PATH"
+export LUA_CPATH="/Users/philipnickel/.luarocks/lib/lua/5.1/?.so;$LUA_CPATH"
+
+
+export PATH=$HOME/.npm-global/bin:$PATH
+export PATH="/Applications/flutter/bin:$PATH"
+
+export PATH="$HOME/.local/bin:$PATH"
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  if command -v launchctl >/dev/null; then
+    dbus_socket=$(launchctl print "gui/$(id -u)/org.freedesktop.dbus-session" 2>/dev/null | awk -F' => ' '/DBUS_LAUNCHD_SESSION_BUS_SOCKET/ {print $2; exit}')
+    if [[ -n "$dbus_socket" ]]; then
+      export DBUS_SESSION_BUS_ADDRESS="unix:path=$dbus_socket"
+    fi
+  fi
+fi
+
+alias pdf='zathura'
+alias lv='lvim'
+alias nv='lvim'
+
+eval "$(zoxide init zsh)"
+
+
+
+export EDITOR="nvim"
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/philipnickel/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/philipnickel/miniforge3/etc/profile.d/conda.sh" ]; then
+        . "/Users/philipnickel/miniforge3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/philipnickel/miniforge3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+export PATH="$HOME/.local/bin:$PATH"
+
+# Quarto browser configuration - opens new windows instead of tabs
+export BROWSER="osascript -e \"tell application \\\"Zen\\\" to make new document with properties {URL:\\\"%s\\\"}\""
+
+# Suppress Neovim deprecation warnings
+export NVIM_APPNAME="lvim"
+export VIMRUNTIME="/opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime"
