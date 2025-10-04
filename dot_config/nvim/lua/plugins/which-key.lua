@@ -233,10 +233,25 @@ return {
       { "<leader>p", group = "Preview", icon = "👁️" },
       { "<leader>pp", desc = "Toggle Render Markdown", icon = "📄" },
 
-      -- Navigation operations (Aerial)
+      -- Navigation operations (Aerial + Trouble)
       { "<leader>n", group = "Navigation", icon = "🧭" },
       { "<leader>na", "<cmd>AerialToggle!<cr>", desc = "Toggle aerial tree", icon = "📋" },
       { "<leader>nn", "<cmd>AerialNavOpen<cr>", desc = "Open aerial navigation", icon = "🧭" },
+      { "<leader>nt", function()
+        vim.cmd("AerialOpen!")
+        vim.cmd("Trouble symbols toggle focus=false win.position=right")
+      end, desc = "Open both trees (Aerial + Trouble)", icon = "🌳" },
+      { "<leader>nx", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics (Trouble)", icon = "⚠️" },
+      { "<leader>nX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer Diagnostics (Trouble)", icon = "📄" },
+      { "<leader>nL", "<cmd>Trouble loclist toggle<cr>", desc = "Location List (Trouble)", icon = "📍" },
+      { "<leader>nQ", "<cmd>Trouble qflist toggle<cr>", desc = "Quickfix List (Trouble)", icon = "🔧" },
+      { "<leader>nR", "<cmd>Trouble lsp_references toggle<cr>", desc = "LSP References (Trouble)", icon = "🔗" },
+      { "<leader>nD", "<cmd>Trouble lsp_definitions toggle<cr>", desc = "LSP Definitions (Trouble)", icon = "📖" },
+      { "<leader>nI", "<cmd>Trouble lsp_implementations toggle<cr>", desc = "LSP Implementations (Trouble)", icon = "⚡" },
+      { "<leader>nT", "<cmd>Trouble lsp_type_definitions toggle<cr>", desc = "LSP Type Definitions (Trouble)", icon = "🏷️" },
+      { "<leader>nO", "<cmd>Trouble lsp_outgoing_calls toggle<cr>", desc = "LSP Outgoing Calls (Trouble)", icon = "📤" },
+      { "<leader>nC", "<cmd>Trouble lsp_incoming_calls toggle<cr>", desc = "LSP Incoming Calls (Trouble)", icon = "📥" },
+      { "<leader>nS", "<cmd>Trouble symbols toggle focus=false<cr>", desc = "Symbols (Trouble)", icon = "🔣" },
 
       -- Utility operations
       { "<leader>u", desc = "Toggle undo tree", icon = "🌳" },
