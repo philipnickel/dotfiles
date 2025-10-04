@@ -10,6 +10,7 @@ return {
     "saadparwaiz1/cmp_luasnip",
     "L3MON4D3/LuaSnip",
     "windwp/nvim-autopairs",
+    "zbirenbaum/copilot-cmp",
   },
   event = "InsertEnter",
   config = function()
@@ -54,6 +55,7 @@ return {
         end, { "i", "s" }),
       }),
       sources = {
+        { name = "copilot", group_index = 2 },
         { name = "nvim_lsp" },
         { name = "luasnip" },
         { name = "buffer" },
@@ -74,5 +76,10 @@ return {
     -- Setup autopairs integration
     local cmp_autopairs = require("nvim-autopairs.completion.cmp")
     cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+    
+    -- Setup Copilot integration
+    require("copilot_cmp").setup({
+      method = "getCompletionsCycling",
+    })
   end,
 }
