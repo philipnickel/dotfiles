@@ -63,6 +63,11 @@ vim.opt.undofile = true
 vim.opt.timeoutlen = 300
 vim.opt.ttimeoutlen = 0
 
+-- Spell checking
+vim.opt.spell = false -- Enable manually with :set spell
+vim.opt.spelllang = { "en_us" }
+vim.opt.spellsuggest = "best,9"
+
 -- Suppress deprecation warnings by overriding the deprecated function
 vim.tbl_add_reverse_lookup = function(tbl)
   -- Create reverse lookup table without deprecation warning

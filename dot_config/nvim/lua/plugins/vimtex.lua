@@ -51,5 +51,34 @@ return {
       styles = 1,
     }
     
+    -- Use VimTeX syntax highlighting instead of Treesitter
+    vim.g.vimtex_syntax_enabled = 1
+    vim.g.vimtex_syntax_conceal_disable = 0
+    
+    -- Enable spell checking for LaTeX files
+    vim.g.vimtex_enabled = 1
+    
+    -- Auto-enable spell checking for LaTeX files
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = 'tex',
+      callback = function()
+        vim.opt_local.spell = true
+        vim.opt_local.spelllang = 'en_us'
+      end,
+    })
+    
+    -- Ctrl+L to correct spelling errors
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = 'tex',
+      callback = function()
+        -- Normal mode: show spelling suggestions for word under cursor
+        vim.keymap.set('n', '<C-l>', 'z=', { buffer = true, desc = 'Correct spelling' })
+        
+        -- Insert mode: automatically correct last spelling mistake
+        -- This implements: <c-g>u<Esc>[s1z=`]a<c-g>u
+        vim.keymap.set('i', '<C-l>', '<c-g>u<Esc>[s1z=`]a<c-g>u', { buffer = true, desc = 'Correct last spelling mistake' })
+      end,
+    })
+    
   end,
 }
