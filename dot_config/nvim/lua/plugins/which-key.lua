@@ -145,6 +145,17 @@ return {
       { "<leader>g", group = "Git", icon = "" },
       { "<leader>gg", desc = "LazyGit", icon = "" },
       { "<leader>gG", desc = "LazyGit Repos", icon = "" },
+      { "<leader>gs", desc = "Stage hunk", icon = "✅" },
+      { "<leader>gr", desc = "Reset hunk", icon = "↩️" },
+      { "<leader>gS", desc = "Stage buffer", icon = "📄" },
+      { "<leader>gu", desc = "Undo stage hunk", icon = "↶" },
+      { "<leader>gR", desc = "Reset buffer", icon = "🔄" },
+      { "<leader>gp", desc = "Preview hunk", icon = "👁️" },
+      { "<leader>gb", desc = "Blame line", icon = "👤" },
+      { "<leader>gtb", desc = "Toggle blame", icon = "🔄" },
+      { "<leader>gd", desc = "Diff this", icon = "📊" },
+      { "<leader>gD", desc = "Diff this ~", icon = "📊" },
+      { "<leader>gtd", desc = "Toggle deleted", icon = "🗑️" },
 
       { "<leader>C", group = "Chezmoi", icon = "🏠" },
       { "<leader>Cf", desc = "Find managed file", icon = "🔍" },
@@ -175,27 +186,18 @@ return {
       { "<leader>lx", desc = "Reload", icon = "🔄" },
       { "<leader>ls", desc = "Toggle main", icon = "🔄" },
 
-      -- Run/Execute operations
+      -- Run/Execute operations (Iron)
       { "<leader>r", group = "Run", icon = "▶️" },
-      { "<leader>rr", desc = "Run Cell", icon = "▶️" },
-      { "<leader>ra", desc = "Run All Cells", icon = "⏭️" },
-      { "<leader>rl", desc = "Run Line", icon = "➡️" },
-      { "<leader>ru", desc = "Run Cell and Above", icon = "⬆️" },
-      { "<leader>rd", desc = "Run Cell and Below", icon = "⬇️" },
-      { "<leader>rj", desc = "Next Cell", icon = "⏭️" },
-      { "<leader>rk", desc = "Previous Cell", icon = "⏮️" },
-      { "<leader>rx", desc = "Delete Cell", icon = "🗑️" },
-
-      -- Code/Chunk operations
-      { "<leader>c", group = "Code", icon = "💻" },
-      { "<leader>cm", desc = "Mark terminal", icon = "📍" },
-      { "<leader>cs", desc = "Set terminal", icon = "⚙️" },
-      { "<leader>ct", desc = "Toggle tmux/neovim", icon = "🔄" },
-      { "<leader>cc", desc = "Close tmux REPL", icon = "❌" },
-      { "<leader>ci", desc = "New Python/IPython terminal", icon = "🐍" },
-      { "<leader>cr", desc = "New R/radian terminal", icon = "📊" },
-      { "<leader>cj", desc = "New Julia terminal", icon = "🔢" },
-      { "<leader>cn", desc = "New Shell terminal", icon = "💻" },
+      { "<leader>rr", "<cmd>IronRepl<cr>", desc = "Toggle REPL", icon = "🔄" },
+      { "<leader>rR", "<cmd>IronRestart<cr>", desc = "Restart REPL", icon = "🔄" },
+      { "<leader>rs", desc = "Send motion", icon = "📤" },
+      { "<leader>rv", desc = "Send visual", icon = "📤" },
+      { "<leader>rf", desc = "Send file", icon = "📄" },
+      { "<leader>rl", desc = "Send line", icon = "➡️" },
+      { "<leader>rp", desc = "Send paragraph", icon = "📝" },
+      { "<leader>ru", desc = "Send until cursor", icon = "⬆️" },
+      { "<leader>rm", desc = "Send mark", icon = "📍" },
+      { "<leader>rc", desc = "Clear REPL", icon = "🧹" },
 
       -- Otter operations
       { "<leader>o", group = "Otter", icon = "🦦" },
@@ -207,16 +209,6 @@ return {
       { "<leader>ob", desc = "Bash chunk", icon = "💻" },
       { "<leader>ol", desc = "Lua chunk", icon = "🌙" },
 
-      -- Molten operations
-      { "<leader>m", group = "Molten", icon = "🔥" },
-      { "<leader>mi", desc = "Initialize", icon = "🚀" },
-      { "<leader>md", desc = "Deinit", icon = "⏹️" },
-      { "<leader>mu", desc = "Update Remote Plugins", icon = "🔄" },
-      { "<leader>me", desc = "Evaluate Operator", icon = "⚡" },
-      { "<leader>mr", desc = "Re-evaluate Cell", icon = "🔄" },
-      { "<leader>mh", desc = "Hide Output", icon = "👁️‍🗨️" },
-      { "<leader>ms", desc = "Show/Enter Output", icon = "👁️" },
-      { "<leader>mp", desc = "Image Popup", icon = "🖼️" },
 
       -- Quarto operations
       { "<leader>q", group = "Quarto", icon = "📚" },

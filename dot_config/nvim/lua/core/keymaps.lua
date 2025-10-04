@@ -45,34 +45,7 @@ local function insert_code_chunk(lang)
   vim.api.nvim_feedkeys(keys, 'n', false)
 end
 
--- Terminal management functions (fallback for when iron.nvim is not available)
-local function get_terminal_for_filetype()
-  if vim.bo.filetype == "python" then
-    return _G.python_term
-  elseif vim.bo.filetype == "r" or vim.bo.filetype == "rmd" then
-    return _G.r_term
-  elseif vim.bo.filetype == "julia" then
-    return _G.julia_term
-  else
-    return _G.shell_term
-  end
-end
-
-local function send_to_terminal(text, show_terminal)
-  local term = get_terminal_for_filetype()
-  if term then
-    term:send(text)
-    if show_terminal then
-      -- Only open terminal if it's not already visible
-      if not term:is_open() then
-        term:toggle()
-      end
-      -- Don't focus terminal - let user stay in code window
-    end
-  else
-    vim.notify("No terminal available for current filetype", vim.log.levels.WARN)
-  end
-end
+-- Terminal management functions removed - now using Iron.nvim
 
 -- Native code block detection functions
 local function find_cell_boundaries()
@@ -234,80 +207,7 @@ local function run_cell_smart()
   end
 end
 
-local function run_all_smart()
-  if vim.bo.filetype == 'python' then
-    local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-    send_to_terminal(table.concat(lines, '\n'), true)  -- Show terminal for run all
-  else
-    local ok, runner = pcall(require, 'quarto.runner')
-    if ok then
-      runner.run_all(true)
-    end
-  end
-end
-
-local function run_line_smart()
-  if vim.bo.filetype == 'python' then
-    send_to_terminal(vim.fn.getline('.'), true)  -- Show terminal for line execution
-  else
-    local ok, runner = pcall(require, 'quarto.runner')
-    if ok then
-      runner.run_line()
-    end
-  end
-end
-
-local function run_cell_above()
-  if vim.bo.filetype == 'python' then
-    -- Find current cell and run it plus all cells above
-    local current_line = vim.fn.line('.')
-    local cell_start = vim.fn.search([[^#\s*%%]], 'bcnW')
-    
-    if cell_start > 0 then
-      -- Run from beginning of file to end of current cell
-      local end_line = vim.fn.search([[^#\s*%%]], 'nW')
-      end_line = end_line > 0 and end_line - 1 or vim.fn.line('$')
-      local lines = vim.api.nvim_buf_get_lines(0, 1, end_line, false)
-      local text = table.concat(lines, '\n')
-      send_to_terminal(text, true)  -- Show terminal for run above
-    else
-      -- No cell markers, run from beginning to current line
-      local lines = vim.api.nvim_buf_get_lines(0, 1, current_line, false)
-      local text = table.concat(lines, '\n')
-      send_to_terminal(text, true)  -- Show terminal for run above
-    end
-  else
-    local ok, runner = pcall(require, 'quarto.runner')
-    if ok then
-      runner.run_above()
-    end
-  end
-end
-
-local function run_cell_below()
-  if vim.bo.filetype == 'python' then
-    -- Find current cell and run it plus all cells below
-    local current_line = vim.fn.line('.')
-    local cell_start = vim.fn.search([[^#\s*%%]], 'bcnW')
-    
-    if cell_start > 0 then
-      -- Run from current cell to end of file
-      local lines = vim.api.nvim_buf_get_lines(0, cell_start, -1, false)
-      local text = table.concat(lines, '\n')
-      send_to_terminal(text, true)  -- Show terminal for run below
-    else
-      -- No cell markers, run from current line to end
-      local lines = vim.api.nvim_buf_get_lines(0, current_line, -1, false)
-      local text = table.concat(lines, '\n')
-      send_to_terminal(text, true)  -- Show terminal for run below
-    end
-  else
-    local ok, runner = pcall(require, 'quarto.runner')
-    if ok then
-      runner.run_below()
-    end
-  end
-end
+-- Old code execution functions removed - now using Iron.nvim
 
 local function clean_quarto_outputs()
   local file = vim.fn.expand('%:p')
@@ -451,19 +351,7 @@ vim.keymap.set('n', '<leader>lI', '<cmd>VimtexInfoAll<cr>', { desc = 'VimTeX inf
 vim.keymap.set('n', '<leader>ld', '<cmd>VimtexDocPackage<cr>', { desc = 'Package docs' })
 vim.keymap.set('n', '<leader>lD', '<cmd>VimtexDocPackagePrompt<cr>', { desc = 'Package docs (prompt)' })
 
--- Run / Quarto / Python ----------------------------------------------------
-vim.keymap.set('n', '<leader>rr', run_cell_smart, { desc = 'Run cell' })
-vim.keymap.set('n', '<leader>ra', run_all_smart, { desc = 'Run all cells' })
-vim.keymap.set('n', '<leader>rl', run_line_smart, { desc = 'Run line' })
-vim.keymap.set('n', '<leader>ru', run_cell_above, { desc = 'Run cell and above' })
-vim.keymap.set('n', '<leader>rd', run_cell_below, { desc = 'Run cell and below' })
-vim.keymap.set('n', '<leader>rj', next_cell, { desc = 'Next cell' })
-vim.keymap.set('n', '<leader>rk', prev_cell, { desc = 'Previous cell' })
-vim.keymap.set('n', '<leader>rx', delete_cell, { desc = 'Delete cell' })
-
--- Selection-based execution
-vim.keymap.set('n', '<leader>rs', select_current_cell, { desc = 'Select current cell' })
-vim.keymap.set('v', '<leader>rr', execute_selection, { desc = 'Run selection' })
+-- Run / Quarto / Python keymaps removed - now using Iron.nvim
 
 
 -- Otter helpers -----------------------------------------------------------

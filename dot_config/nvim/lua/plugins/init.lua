@@ -49,6 +49,7 @@ require("lazy").setup({
         { import = "plugins.lualine" },
         { import = "plugins.toggleterm" },
         { import = "plugins.aerial" },
+        { import = "plugins.iron" },
   
   -- Telescope (essential for navigation)
   {
