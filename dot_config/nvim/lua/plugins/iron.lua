@@ -17,7 +17,10 @@ return {
             command = {"zsh"}
           },
           python = {
-            command = {"ipython", "--no-autoindent"}
+            command = {"ipython", "--no-autoindent"},
+            format = require("iron.fts.common").bracketed_paste_python,
+            block_dividers = { "# %%", "#%%" },
+            env = {PYTHON_BASIC_REPL = "1"}
           },
           r = {
             command = {"R"}
@@ -28,10 +31,34 @@ return {
           lua = {
             command = {"lua"}
           },
+          -- Support for Quarto/Markdown files
+          quarto = {
+            command = {"ipython", "--no-autoindent"}
+          },
+          markdown = {
+            command = {"ipython", "--no-autoindent"}
+          },
         },
         
         -- Repl window will be displayed as a vertical split (40% width)
         repl_open_cmd = view.split.vertical.botright("40%"),
+        
+        -- Set the file type of the newly created repl to ft
+        repl_filetype = function(bufnr, ft)
+          -- For Quarto/Markdown files, detect the language in the current chunk
+          if ft == "quarto" or ft == "markdown" then
+            local ok_otter, otter_keeper = pcall(require, 'otter.keeper')
+            if ok_otter then
+              local current = otter_keeper.get_current_language_context()
+              if current and current ~= "" then
+                return current
+              end
+            end
+            -- Fallback to python for Quarto/Markdown
+            return "python"
+          end
+          return ft
+        end,
       },
       
       -- Iron doesn't set keymaps by default anymore
@@ -50,6 +77,9 @@ return {
         remove_mark = "<leader>rm",
         cr = "<leader>rs<cr>",
         clear = "<leader>rc",
+        -- Additional keymaps for code blocks
+        send_code_block = "<leader>rb",
+        send_code_block_and_move = "<leader>rn",
       },
       
       -- If the highlight is on, you can change how it looks
@@ -62,7 +92,7 @@ return {
     })
 
     -- Additional keymaps for iron focus and hide
-    vim.keymap.set('n', '<leader>rf', '<cmd>IronFocus<cr>', { desc = 'Focus REPL' })
+    vim.keymap.set('n', '<leader>rF', '<cmd>IronFocus<cr>', { desc = 'Focus REPL' })
     vim.keymap.set('n', '<leader>rh', '<cmd>IronHide<cr>', { desc = 'Hide REPL' })
   end,
 }
