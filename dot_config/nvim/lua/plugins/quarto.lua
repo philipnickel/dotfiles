@@ -1,27 +1,44 @@
--- Quarto support configuration
+-- Quarto support configuration (following official maintainer's setup)
 
 return {
-  "quarto-dev/quarto-nvim",
-  ft = { "quarto", "markdown" },
-  dependencies = {
-    "jmbuhr/otter.nvim",
-  },
-  opts = {
-    lspFeatures = {
-      enabled = true,
-      chunks = "curly",
-      languages = { "r", "python", "julia", "bash", "lua", "html" },
-      diagnostics = {
+  { -- Quarto nvim main plugin
+    'quarto-dev/quarto-nvim',
+    dev = false,
+    opts = {
+      lspFeatures = {
         enabled = true,
-        triggers = { "BufWritePost" },
+        chunks = 'curly',
       },
-      completion = {
+      codeRunner = {
         enabled = true,
+        default_method = 'iron', -- Use iron instead of slime
       },
     },
-    codeRunner = {
-      enabled = true,
-      default_method = "toggleterm",
+    dependencies = {
+      'jmbuhr/otter.nvim',
+    },
+  },
+
+  { -- automatically convert ipynb files to quarto documents
+    'GCBallesteros/jupytext.nvim',
+    opts = {
+      custom_language_formatting = {
+        python = {
+          extension = 'qmd',
+          style = 'quarto',
+          force_ft = 'quarto',
+        },
+        r = {
+          extension = 'qmd',
+          style = 'quarto',
+          force_ft = 'quarto',
+        },
+        julia = {
+          extension = 'qmd',
+          style = 'quarto',
+          force_ft = 'quarto',
+        },
+      },
     },
   },
 }

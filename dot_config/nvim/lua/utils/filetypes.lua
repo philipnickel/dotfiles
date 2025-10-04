@@ -21,4 +21,5 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   end,
 })
 
+
 -- PDF handling is configured in pdf_handler.lua

@@ -62,6 +62,9 @@ return {
                 if ok_list and type(res) == 'table' then
                   list = res
                 end
+              else
+                -- If there's an error loading the cache, start fresh
+                list = {}
               end
             end
             for i = #list, 1, -1 do
