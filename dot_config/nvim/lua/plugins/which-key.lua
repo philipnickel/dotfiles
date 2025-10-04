@@ -241,6 +241,11 @@ return {
       { "<leader>p", group = "Preview", icon = "👁️" },
       { "<leader>pp", desc = "Toggle Render Markdown", icon = "📄" },
 
+      -- Navigation operations (Aerial)
+      { "<leader>n", group = "Navigation", icon = "🧭" },
+      { "<leader>na", "<cmd>AerialToggle!<cr>", desc = "Toggle aerial tree", icon = "📋" },
+      { "<leader>nn", "<cmd>AerialNavOpen<cr>", desc = "Open aerial navigation", icon = "🧭" },
+
       -- Utility operations
       { "<leader>u", desc = "Toggle undo tree", icon = "🌳" },
       { "<leader>pv", desc = "Open file explorer", icon = "📁" },

@@ -16,6 +16,10 @@ return {
       ui = {
         border = "rounded",
       },
+      -- Prevent auto-installation of problematic packages
+      registries = {
+        "github:mason-org/mason-registry",
+      },
     })
 
     -- Setup Mason LSPConfig
@@ -27,6 +31,17 @@ return {
         "r_language_server",
         "julials",
         "bashls",
+      },
+      -- Explicitly exclude stylua from LSP configuration
+      handlers = {
+        -- Default handler for all servers
+        function(server_name)
+          if server_name == "stylua" then
+            -- Skip stylua as it's not an LSP server
+            return
+          end
+          require("lspconfig")[server_name].setup({})
+        end,
       },
     })
 

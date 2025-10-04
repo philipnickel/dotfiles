@@ -45,9 +45,10 @@ require("lazy").setup({
   { import = "plugins.treesitter" },
   { import = "plugins.undotree" },
   { import = "plugins.gitsigns" },
-  { import = "plugins.indent-blankline" },
-  { import = "plugins.lualine" },
-  { import = "plugins.toggleterm" },
+        { import = "plugins.indent-blankline" },
+        { import = "plugins.lualine" },
+        { import = "plugins.toggleterm" },
+        { import = "plugins.aerial" },
   
   -- Telescope (essential for navigation)
   {
