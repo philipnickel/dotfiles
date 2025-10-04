@@ -12,6 +12,16 @@ return {
     },
   },
   config = function()
+    -- Nord Vim theme configuration variables (must be set before colorscheme activation)
+    vim.g.nord_cursor_line_number_background = 1
+    vim.g.nord_uniform_status_lines = 1
+    vim.g.nord_bold_vertical_split_line = 1
+    vim.g.nord_uniform_diff_background = 1
+    vim.g.nord_bold = 1
+    vim.g.nord_italic = 1
+    vim.g.nord_italic_comments = 1
+    vim.g.nord_underline = 1
+
     local frost = {
       sea_green = '#8FBCBB',
       frost_blue = '#88C0D0',
@@ -167,23 +177,23 @@ return {
     set_hl('LualineVisual', { bg = nord_colors.nord0, fg = nord_colors.nord12 })
     set_hl('LualineReplace', { bg = nord_colors.nord0, fg = nord_colors.nord11 })
     
-    -- Diagnostic colors
-    set_hl('DiagnosticError', { fg = nord_colors.nord11, bg = 'NONE' })
-    set_hl('DiagnosticWarn', { fg = nord_colors.nord13, bg = 'NONE' })
-    set_hl('DiagnosticInfo', { fg = nord_colors.nord8, bg = 'NONE' })
-    set_hl('DiagnosticHint', { fg = nord_colors.nord7, bg = 'NONE' })
+    -- Diagnostic colors (using Frost palette)
+    set_hl('DiagnosticError', { fg = nord_colors.nord7, bg = 'NONE' })   -- Sea green
+    set_hl('DiagnosticWarn', { fg = nord_colors.nord8, bg = 'NONE' })   -- Frost blue
+    set_hl('DiagnosticInfo', { fg = nord_colors.nord9, bg = 'NONE' })   -- Steel blue
+    set_hl('DiagnosticHint', { fg = nord_colors.nord10, bg = 'NONE' })  -- Deep blue
     
-    -- Search and selection colors
-    set_hl('Search', { fg = nord_colors.nord0, bg = nord_colors.nord13 })
-    set_hl('IncSearch', { fg = nord_colors.nord0, bg = nord_colors.nord12 })
-    set_hl('Visual', { bg = nord_colors.nord2 })
-    set_hl('VisualNOS', { bg = nord_colors.nord2 })
+    -- Search and selection colors (using Frost palette)
+    set_hl('Search', { fg = nord_colors.nord0, bg = nord_colors.nord8 })   -- Frost blue
+    set_hl('IncSearch', { fg = nord_colors.nord0, bg = nord_colors.nord9 }) -- Steel blue
+    set_hl('Visual', { bg = nord_colors.nord7 })   -- Sea green
+    set_hl('VisualNOS', { bg = nord_colors.nord7 })
     
-    -- Cursor and line colors
-    set_hl('CursorLine', { bg = nord_colors.nord1 })
-    set_hl('CursorLineNr', { fg = nord_colors.nord8, bg = nord_colors.nord1 })
+    -- Cursor and line colors (no highlighting)
+    set_hl('CursorLine', { bg = 'NONE' })  -- No cursor line highlighting
+    set_hl('CursorLineNr', { fg = nord_colors.nord8, bg = 'NONE' })
     set_hl('LineNr', { fg = nord_colors.nord3, bg = 'NONE' })
-    set_hl('CursorColumn', { bg = nord_colors.nord1 })
+    set_hl('CursorColumn', { bg = 'NONE' })
     
     -- Status line colors (transparent to show terminal background)
     set_hl('StatusLine', { bg = 'NONE', fg = nord_colors.nord4 })
@@ -250,28 +260,28 @@ return {
     set_hl('FoldColumn', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
     set_hl('SignColumn', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
     
-    -- Git signs
-    set_hl('GitSignsAdd', { fg = nord_colors.nord14, bg = 'NONE' })
-    set_hl('GitSignsChange', { fg = nord_colors.nord13, bg = 'NONE' })
-    set_hl('GitSignsDelete', { fg = nord_colors.nord11, bg = 'NONE' })
-    set_hl('GitSignsAddNr', { fg = nord_colors.nord14, bg = 'NONE' })
-    set_hl('GitSignsChangeNr', { fg = nord_colors.nord13, bg = 'NONE' })
-    set_hl('GitSignsDeleteNr', { fg = nord_colors.nord11, bg = 'NONE' })
-    set_hl('GitSignsAddLn', { fg = nord_colors.nord14, bg = 'NONE' })
-    set_hl('GitSignsChangeLn', { fg = nord_colors.nord13, bg = 'NONE' })
-    set_hl('GitSignsDeleteLn', { fg = nord_colors.nord11, bg = 'NONE' })
+    -- Git signs (using Frost palette)
+    set_hl('GitSignsAdd', { fg = nord_colors.nord7, bg = 'NONE' })   -- Sea green
+    set_hl('GitSignsChange', { fg = nord_colors.nord8, bg = 'NONE' }) -- Frost blue
+    set_hl('GitSignsDelete', { fg = nord_colors.nord9, bg = 'NONE' }) -- Steel blue
+    set_hl('GitSignsAddNr', { fg = nord_colors.nord7, bg = 'NONE' })
+    set_hl('GitSignsChangeNr', { fg = nord_colors.nord8, bg = 'NONE' })
+    set_hl('GitSignsDeleteNr', { fg = nord_colors.nord9, bg = 'NONE' })
+    set_hl('GitSignsAddLn', { fg = nord_colors.nord7, bg = 'NONE' })
+    set_hl('GitSignsChangeLn', { fg = nord_colors.nord8, bg = 'NONE' })
+    set_hl('GitSignsDeleteLn', { fg = nord_colors.nord9, bg = 'NONE' })
     
-    -- Diff colors
-    set_hl('DiffAdd', { bg = nord_colors.nord1, fg = nord_colors.nord14 })
-    set_hl('DiffChange', { bg = nord_colors.nord1, fg = nord_colors.nord13 })
-    set_hl('DiffDelete', { bg = nord_colors.nord1, fg = nord_colors.nord11 })
-    set_hl('DiffText', { bg = nord_colors.nord1, fg = nord_colors.nord8 })
+    -- Diff colors (using Frost palette)
+    set_hl('DiffAdd', { bg = nord_colors.nord1, fg = nord_colors.nord7 })   -- Sea green
+    set_hl('DiffChange', { bg = nord_colors.nord1, fg = nord_colors.nord8 }) -- Frost blue
+    set_hl('DiffDelete', { bg = nord_colors.nord1, fg = nord_colors.nord9 }) -- Steel blue
+    set_hl('DiffText', { bg = nord_colors.nord1, fg = nord_colors.nord10 })  -- Deep blue
     
-    -- Spell checking
-    set_hl('SpellBad', { sp = nord_colors.nord11, undercurl = true })
-    set_hl('SpellCap', { sp = nord_colors.nord13, undercurl = true })
-    set_hl('SpellLocal', { sp = nord_colors.nord8, undercurl = true })
-    set_hl('SpellRare', { sp = nord_colors.nord15, undercurl = true })
+    -- Spell checking (using Frost palette)
+    set_hl('SpellBad', { sp = nord_colors.nord7, undercurl = true })   -- Sea green
+    set_hl('SpellCap', { sp = nord_colors.nord8, undercurl = true })   -- Frost blue
+    set_hl('SpellLocal', { sp = nord_colors.nord9, undercurl = true }) -- Steel blue
+    set_hl('SpellRare', { sp = nord_colors.nord10, undercurl = true }) -- Deep blue
     
     -- Whitespace and special characters
     set_hl('Whitespace', { fg = nord_colors.nord2 })

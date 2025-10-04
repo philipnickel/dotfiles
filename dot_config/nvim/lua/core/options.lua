@@ -25,7 +25,7 @@ vim.opt.fillchars = {
 
 -- Window and buffer settings
 vim.opt.number = true
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 vim.opt.cursorcolumn = false
 vim.opt.signcolumn = "yes"
 vim.opt.colorcolumn = ""
