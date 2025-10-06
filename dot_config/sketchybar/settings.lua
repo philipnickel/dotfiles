@@ -18,8 +18,8 @@ else
 end
 
 return {
-  paddings = 3,
-  group_paddings = 5,
+  paddings = 2,
+  group_paddings = 4,
 
   icons = icon_set,
   font = font,

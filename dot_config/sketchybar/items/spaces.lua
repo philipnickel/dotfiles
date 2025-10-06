@@ -111,14 +111,14 @@ local function ensure_workspace_item(id)
     icon = {
       font = { family = settings.font.numbers },
       string = id,
-      padding_left = 15,
-      padding_right = 8,
+      padding_left = 12,
+      padding_right = 6,
       color = colors.white,
     },
     label = {
-      padding_right = 20,
+      padding_right = 14,
       color = colors.grey,
-      font = "sketchybar-app-font:Regular:16.0",
+      font = "sketchybar-app-font:Regular:13.0",
       y_offset = -1,
     },
     padding_left = 1,
@@ -126,7 +126,7 @@ local function ensure_workspace_item(id)
     background = {
       color = colors.bg1,
       border_width = 1,
-      height = 26,
+      height = 22,
       border_color = colors.bg2,
     },
     updates = true,
@@ -142,7 +142,7 @@ local function ensure_workspace_item(id)
     background = {
       color = colors.transparent,
       border_color = colors.bg2,
-      height = 28,
+      height = 24,
       border_width = 1,
     },
   })

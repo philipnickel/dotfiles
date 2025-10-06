@@ -7,16 +7,16 @@ sbar.add("item", { position = "right", width = settings.group_paddings })
 local cal = sbar.add("item", {
   icon = {
     color = colors.white,
-    padding_left = 8,
+    padding_left = 6,
     font = {
       style = settings.font.style_map["Black"],
-      size = 12.0,
+      size = 10.0,
     },
   },
   label = {
     color = colors.white,
-    padding_right = 8,
-    width = 49,
+    padding_right = 6,
+    width = 42,
     align = "right",
     font = { family = settings.font.numbers },
   },
@@ -36,7 +36,7 @@ local cal = sbar.add("item", {
 sbar.add("bracket", { cal.name }, {
   background = {
     color = colors.transparent,
-    height = 30,
+    height = 26,
     border_color = colors.black,
   }
 })
