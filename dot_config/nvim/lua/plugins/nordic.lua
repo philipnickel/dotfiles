@@ -31,8 +31,8 @@ return {
 
     require('nordic').setup({
       transparent = {
-        bg = true, -- Make background transparent to show terminal background
-        float = false,
+        bg = true,   -- Main windows inherit terminal transparency
+        float = true,
       },
       bold_keywords = true,
       italic_comments = true,
@@ -60,6 +60,21 @@ return {
     local palette = require('nordic.colors')
     local function set_hl(name, opts)
       vim.api.nvim_set_hl(0, name, opts)
+    end
+
+    local function make_transparent(groups)
+      for _, group in ipairs(groups) do
+        local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = group, link = false })
+        if ok and hl then
+          local has_bg = hl.bg ~= nil or hl.ctermbg ~= nil
+          if has_bg then
+            hl.bg = 'NONE'
+            hl.ctermbg = nil
+            hl.link = nil
+            set_hl(group, hl)
+          end
+        end
+      end
     end
 
     -- Nord color palette for consistency (exact colors from terminal)
@@ -94,45 +109,45 @@ return {
     set_hl('BufferLineDiagWarn', { fg = nord_colors.nord13, bg = 'NONE' })
     set_hl('BufferLineDiagInfo', { fg = nord_colors.nord8, bg = 'NONE' })
     set_hl('BufferLineDiagHint', { fg = nord_colors.nord7, bg = 'NONE' })
-    set_hl('BufferLineCloseButton', { fg = nord_colors.nord0, bg = nord_colors.nord0 })
-    set_hl('BufferLineCloseButtonVisible', { fg = nord_colors.nord0, bg = nord_colors.nord0 })
-    set_hl('BufferLineCloseButtonSelected', { fg = palette.bg or nord_colors.nord0, bg = palette.bg or nord_colors.nord0 })
+    set_hl('BufferLineCloseButton', { fg = nord_colors.nord3, bg = 'NONE' })
+    set_hl('BufferLineCloseButtonVisible', { fg = nord_colors.nord3, bg = 'NONE' })
+    set_hl('BufferLineCloseButtonSelected', { fg = nord_colors.nord3, bg = 'NONE' })
 
     -- Enhanced UI colors to match terminal
-    set_hl('NormalFloat', { bg = nord_colors.nord0, fg = nord_colors.nord4 })
-    set_hl('FloatBorder', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
-    set_hl('LspInfoBorder', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
+    set_hl('NormalFloat', { bg = 'NONE', fg = nord_colors.nord4 })
+    set_hl('FloatBorder', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('LspInfoBorder', { bg = 'NONE', fg = nord_colors.nord3 })
     
     -- Telescope colors
-    set_hl('TelescopeNormal', { bg = nord_colors.nord0, fg = nord_colors.nord4 })
-    set_hl('TelescopeBorder', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
-    set_hl('TelescopePromptNormal', { bg = nord_colors.nord1, fg = nord_colors.nord4 })
-    set_hl('TelescopePromptBorder', { bg = nord_colors.nord1, fg = nord_colors.nord3 })
-    set_hl('TelescopeResultsNormal', { bg = nord_colors.nord0, fg = nord_colors.nord4 })
-    set_hl('TelescopeResultsBorder', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
-    set_hl('TelescopePreviewNormal', { bg = nord_colors.nord0, fg = nord_colors.nord4 })
-    set_hl('TelescopePreviewBorder', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
+    set_hl('TelescopeNormal', { bg = 'NONE', fg = nord_colors.nord4 })
+    set_hl('TelescopeBorder', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('TelescopePromptNormal', { bg = 'NONE', fg = nord_colors.nord4 })
+    set_hl('TelescopePromptBorder', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('TelescopeResultsNormal', { bg = 'NONE', fg = nord_colors.nord4 })
+    set_hl('TelescopeResultsBorder', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('TelescopePreviewNormal', { bg = 'NONE', fg = nord_colors.nord4 })
+    set_hl('TelescopePreviewBorder', { bg = 'NONE', fg = nord_colors.nord3 })
     
     -- Neo-tree colors
-    set_hl('NeoTreeNormal', { bg = nord_colors.nord0, fg = nord_colors.nord4 })
-    set_hl('NeoTreeNormalNC', { bg = nord_colors.nord0, fg = nord_colors.nord4 })
-    set_hl('NeoTreeFloatBorder', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
+    set_hl('NeoTreeNormal', { bg = 'NONE', fg = nord_colors.nord4 })
+    set_hl('NeoTreeNormalNC', { bg = 'NONE', fg = nord_colors.nord4 })
+    set_hl('NeoTreeFloatBorder', { bg = 'NONE', fg = nord_colors.nord3 })
     
     -- Indent blankline colors
     set_hl('IblIndent', { fg = nord_colors.nord2, bg = 'NONE' })
     set_hl('IblScope', { fg = nord_colors.nord3, bg = 'NONE' })
     
     -- Toggleterm colors
-    set_hl('ToggleTerm', { bg = nord_colors.nord0, fg = nord_colors.nord4 })
-    set_hl('ToggleTermBorder', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
+    set_hl('ToggleTerm', { bg = 'NONE', fg = nord_colors.nord4 })
+    set_hl('ToggleTermBorder', { bg = 'NONE', fg = nord_colors.nord3 })
     
     -- Which-key colors
-    set_hl('WhichKeyFloat', { bg = nord_colors.nord0, fg = nord_colors.nord4 })
+    set_hl('WhichKeyFloat', { bg = 'NONE', fg = nord_colors.nord4 })
     
     -- Aerial colors
-    set_hl('AerialNormal', { bg = nord_colors.nord0, fg = nord_colors.nord4 })
-    set_hl('AerialLine', { bg = nord_colors.nord1, fg = nord_colors.nord8 })
-    set_hl('AerialLineNC', { bg = nord_colors.nord2, fg = nord_colors.nord3 })
+    set_hl('AerialNormal', { bg = 'NONE', fg = nord_colors.nord4 })
+    set_hl('AerialLine', { bg = 'NONE', fg = nord_colors.nord8, bold = true })
+    set_hl('AerialLineNC', { bg = 'NONE', fg = nord_colors.nord3 })
     set_hl('AerialGuide', { fg = nord_colors.nord3, bg = 'NONE' })
     set_hl('AerialGuide1', { fg = nord_colors.nord11, bg = 'NONE' })
     set_hl('AerialGuide2', { fg = nord_colors.nord10, bg = 'NONE' })
@@ -172,10 +187,10 @@ return {
     set_hl('AerialTypeParameterIcon', { fg = nord_colors.nord5, bg = 'NONE' })
     
     -- Lualine colors (ensure they match Nord)
-    set_hl('LualineNormal', { bg = nord_colors.nord0, fg = nord_colors.nord4 })
-    set_hl('LualineInsert', { bg = nord_colors.nord0, fg = nord_colors.nord14 })
-    set_hl('LualineVisual', { bg = nord_colors.nord0, fg = nord_colors.nord12 })
-    set_hl('LualineReplace', { bg = nord_colors.nord0, fg = nord_colors.nord11 })
+    set_hl('LualineNormal', { bg = 'NONE', fg = nord_colors.nord4 })
+    set_hl('LualineInsert', { bg = 'NONE', fg = nord_colors.nord14 })
+    set_hl('LualineVisual', { bg = 'NONE', fg = nord_colors.nord12 })
+    set_hl('LualineReplace', { bg = 'NONE', fg = nord_colors.nord11 })
     
     -- Diagnostic colors (using Frost palette)
     set_hl('DiagnosticError', { fg = nord_colors.nord7, bg = 'NONE' })   -- Sea green
@@ -200,13 +215,13 @@ return {
     set_hl('StatusLineNC', { bg = 'NONE', fg = nord_colors.nord3 })
     
     -- Tab line colors
-    set_hl('TabLine', { bg = nord_colors.nord1, fg = nord_colors.nord3 })
-    set_hl('TabLineFill', { bg = nord_colors.nord0 })
-    set_hl('TabLineSel', { bg = nord_colors.nord10, fg = nord_colors.nord6 })
+    set_hl('TabLine', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('TabLineFill', { bg = 'NONE' })
+    set_hl('TabLineSel', { bg = 'NONE', fg = nord_colors.nord6, bold = true })
     
     -- Core UI elements to match terminal (transparent background)
     set_hl('Normal', { bg = 'NONE', fg = nord_colors.nord4 })
-    set_hl('NormalFloat', { bg = nord_colors.nord0, fg = nord_colors.nord4 })
+    set_hl('NormalFloat', { bg = 'NONE', fg = nord_colors.nord4 })
     set_hl('NormalNC', { bg = 'NONE', fg = nord_colors.nord3 })
     
     -- Window borders and separators
@@ -216,12 +231,12 @@ return {
     set_hl('WinBarNC', { bg = 'NONE', fg = nord_colors.nord3 })
     
     -- Menu and popup colors
-    set_hl('Pmenu', { bg = nord_colors.nord1, fg = nord_colors.nord4 })
-    set_hl('PmenuSel', { bg = nord_colors.nord10, fg = nord_colors.nord6 })
-    set_hl('PmenuSbar', { bg = nord_colors.nord2 })
+    set_hl('Pmenu', { bg = 'NONE', fg = nord_colors.nord4 })
+    set_hl('PmenuSel', { bg = nord_colors.nord10, fg = nord_colors.nord0 })
+    set_hl('PmenuSbar', { bg = 'NONE' })
     set_hl('PmenuThumb', { bg = nord_colors.nord3 })
-    set_hl('PmenuKind', { bg = nord_colors.nord1, fg = nord_colors.nord8 })
-    set_hl('PmenuExtra', { bg = nord_colors.nord1, fg = nord_colors.nord3 })
+    set_hl('PmenuKind', { bg = 'NONE', fg = nord_colors.nord8 })
+    set_hl('PmenuExtra', { bg = 'NONE', fg = nord_colors.nord3 })
     
     -- Completion menu
     set_hl('CmpItemAbbr', { fg = nord_colors.nord4, bg = 'NONE' })
@@ -256,9 +271,9 @@ return {
     set_hl('CmpItemKindTypeParameter', { fg = nord_colors.nord5, bg = 'NONE' })
     
     -- Fold colors
-    set_hl('Folded', { bg = nord_colors.nord1, fg = nord_colors.nord3 })
-    set_hl('FoldColumn', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
-    set_hl('SignColumn', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
+    set_hl('Folded', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('FoldColumn', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('SignColumn', { bg = 'NONE', fg = nord_colors.nord3 })
     
     -- Git signs (using Frost palette)
     set_hl('GitSignsAdd', { fg = nord_colors.nord7, bg = 'NONE' })   -- Sea green
@@ -272,10 +287,10 @@ return {
     set_hl('GitSignsDeleteLn', { fg = nord_colors.nord9, bg = 'NONE' })
     
     -- Diff colors (using Frost palette)
-    set_hl('DiffAdd', { bg = nord_colors.nord1, fg = nord_colors.nord7 })   -- Sea green
-    set_hl('DiffChange', { bg = nord_colors.nord1, fg = nord_colors.nord8 }) -- Frost blue
-    set_hl('DiffDelete', { bg = nord_colors.nord1, fg = nord_colors.nord9 }) -- Steel blue
-    set_hl('DiffText', { bg = nord_colors.nord1, fg = nord_colors.nord10 })  -- Deep blue
+    set_hl('DiffAdd', { bg = 'NONE', fg = nord_colors.nord7 })   -- Sea green
+    set_hl('DiffChange', { bg = 'NONE', fg = nord_colors.nord8 }) -- Frost blue
+    set_hl('DiffDelete', { bg = 'NONE', fg = nord_colors.nord9 }) -- Steel blue
+    set_hl('DiffText', { bg = 'NONE', fg = nord_colors.nord10 })  -- Deep blue
     
     -- Spell checking (using Frost palette)
     set_hl('SpellBad', { sp = nord_colors.nord7, undercurl = true })   -- Sea green
@@ -287,22 +302,22 @@ return {
     set_hl('Whitespace', { fg = nord_colors.nord2 })
     set_hl('NonText', { fg = nord_colors.nord2 })
     set_hl('SpecialKey', { fg = nord_colors.nord2 })
-    set_hl('EndOfBuffer', { fg = nord_colors.nord2 })
+    set_hl('EndOfBuffer', { fg = 'NONE' })
     
     -- Wild menu
     set_hl('WildMenu', { bg = nord_colors.nord10, fg = nord_colors.nord6 })
     
     -- Quickfix
-    set_hl('QuickFixLine', { bg = nord_colors.nord1, fg = nord_colors.nord8 })
+    set_hl('QuickFixLine', { bg = 'NONE', fg = nord_colors.nord8 })
     set_hl('qfLineNr', { fg = nord_colors.nord3 })
     set_hl('qfFileName', { fg = nord_colors.nord8 })
     set_hl('qfSeparator', { fg = nord_colors.nord3 })
     
     -- Location list
-    set_hl('LocationList', { bg = nord_colors.nord0, fg = nord_colors.nord4 })
+    set_hl('LocationList', { bg = 'NONE', fg = nord_colors.nord4 })
     
     -- Command line
-    set_hl('CmdLine', { bg = nord_colors.nord0, fg = nord_colors.nord4 })
+    set_hl('CmdLine', { bg = 'NONE', fg = nord_colors.nord4 })
     set_hl('CmdLineIcon', { fg = nord_colors.nord8 })
     set_hl('CmdLineIconSearch', { fg = nord_colors.nord13 })
     set_hl('CmdLineIconPrompt', { fg = nord_colors.nord8 })
@@ -315,7 +330,7 @@ return {
     set_hl('CmdLineIconVim', { fg = nord_colors.nord14 })
     
     -- Messages
-    set_hl('MsgArea', { bg = nord_colors.nord0, fg = nord_colors.nord4 })
+    set_hl('MsgArea', { bg = 'NONE', fg = nord_colors.nord4 })
     set_hl('MsgSeparator', { fg = nord_colors.nord3 })
     set_hl('MoreMsg', { fg = nord_colors.nord14 })
     set_hl('WarningMsg', { fg = nord_colors.nord13 })
@@ -343,7 +358,7 @@ return {
     
     -- Sneak
     set_hl('Sneak', { bg = nord_colors.nord8, fg = nord_colors.nord0 })
-    set_hl('SneakScope', { bg = nord_colors.nord1, fg = nord_colors.nord4 })
+    set_hl('SneakScope', { bg = 'NONE', fg = nord_colors.nord4 })
     
     -- Leap
     set_hl('LeapBackdrop', { fg = nord_colors.nord3 })
@@ -353,38 +368,38 @@ return {
     set_hl('LeapLabelSelected', { bg = nord_colors.nord10, fg = nord_colors.nord6, bold = true })
     
     -- Trouble colors
-    set_hl('TroubleNormal', { bg = nord_colors.nord0, fg = nord_colors.nord4 })
-    set_hl('TroubleSignColumn', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
-    set_hl('TroublePreviewNormal', { bg = nord_colors.nord0, fg = nord_colors.nord4 })
-    set_hl('TroubleCount', { bg = nord_colors.nord1, fg = nord_colors.nord8 })
-    set_hl('TroubleCode', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
-    set_hl('TroubleSource', { bg = nord_colors.nord0, fg = nord_colors.nord7 })
-    set_hl('TroubleLocation', { bg = nord_colors.nord0, fg = nord_colors.nord8 })
-    set_hl('TroubleFoldIcon', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
-    set_hl('TroubleIndent', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
-    set_hl('TroubleText', { bg = nord_colors.nord0, fg = nord_colors.nord4 })
-    set_hl('TroubleTextInformation', { bg = nord_colors.nord0, fg = nord_colors.nord8 })
-    set_hl('TroubleTextWarning', { bg = nord_colors.nord0, fg = nord_colors.nord13 })
-    set_hl('TroubleTextError', { bg = nord_colors.nord0, fg = nord_colors.nord11 })
-    set_hl('TroubleTextHint', { bg = nord_colors.nord0, fg = nord_colors.nord7 })
-    set_hl('TroubleClose', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
-    set_hl('TroublePreview', { bg = nord_colors.nord0, fg = nord_colors.nord4 })
-    set_hl('TroubleNormalNC', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
-    set_hl('TroubleSignColumnNC', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
-    set_hl('TroublePreviewNC', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
-    set_hl('TroubleCountNC', { bg = nord_colors.nord1, fg = nord_colors.nord3 })
-    set_hl('TroubleCodeNC', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
-    set_hl('TroubleSourceNC', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
-    set_hl('TroubleLocationNC', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
-    set_hl('TroubleFoldIconNC', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
-    set_hl('TroubleIndentNC', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
-    set_hl('TroubleTextNC', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
-    set_hl('TroubleTextInformationNC', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
-    set_hl('TroubleTextWarningNC', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
-    set_hl('TroubleTextErrorNC', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
-    set_hl('TroubleTextHintNC', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
-    set_hl('TroubleCloseNC', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
-    set_hl('TroublePreviewNC', { bg = nord_colors.nord0, fg = nord_colors.nord3 })
+    set_hl('TroubleNormal', { bg = 'NONE', fg = nord_colors.nord4 })
+    set_hl('TroubleSignColumn', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('TroublePreviewNormal', { bg = 'NONE', fg = nord_colors.nord4 })
+    set_hl('TroubleCount', { bg = 'NONE', fg = nord_colors.nord8 })
+    set_hl('TroubleCode', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('TroubleSource', { bg = 'NONE', fg = nord_colors.nord7 })
+    set_hl('TroubleLocation', { bg = 'NONE', fg = nord_colors.nord8 })
+    set_hl('TroubleFoldIcon', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('TroubleIndent', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('TroubleText', { bg = 'NONE', fg = nord_colors.nord4 })
+    set_hl('TroubleTextInformation', { bg = 'NONE', fg = nord_colors.nord8 })
+    set_hl('TroubleTextWarning', { bg = 'NONE', fg = nord_colors.nord13 })
+    set_hl('TroubleTextError', { bg = 'NONE', fg = nord_colors.nord11 })
+    set_hl('TroubleTextHint', { bg = 'NONE', fg = nord_colors.nord7 })
+    set_hl('TroubleClose', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('TroublePreview', { bg = 'NONE', fg = nord_colors.nord4 })
+    set_hl('TroubleNormalNC', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('TroubleSignColumnNC', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('TroublePreviewNC', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('TroubleCountNC', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('TroubleCodeNC', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('TroubleSourceNC', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('TroubleLocationNC', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('TroubleFoldIconNC', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('TroubleIndentNC', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('TroubleTextNC', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('TroubleTextInformationNC', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('TroubleTextWarningNC', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('TroubleTextErrorNC', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('TroubleTextHintNC', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('TroubleCloseNC', { bg = 'NONE', fg = nord_colors.nord3 })
+    set_hl('TroublePreviewNC', { bg = 'NONE', fg = nord_colors.nord3 })
 
     -- Bufferline configuration with Nord colors
     local ok_bufferline, bufferline = pcall(require, 'bufferline')
@@ -607,5 +622,120 @@ return {
         },
       }
     end
+
+    make_transparent {
+      'Normal',
+      'NormalNC',
+      'NormalFloat',
+      'NormalSB',
+      'FloatBorder',
+      'LspInfoBorder',
+      'SignColumn',
+      'LineNr',
+      'FoldColumn',
+      'CursorLine',
+      'CursorLineNr',
+      'CursorColumn',
+      'StatusLine',
+      'StatusLineNC',
+      'WinSeparator',
+      'VertSplit',
+      'WinBar',
+      'WinBarNC',
+      'CmdLine',
+      'MsgArea',
+      'LocationList',
+      'QuickFixLine',
+      'TroubleNormal',
+      'TroubleSignColumn',
+      'TroublePreviewNormal',
+      'TroubleCount',
+      'TroubleCode',
+      'TroubleSource',
+      'TroubleLocation',
+      'TroubleFoldIcon',
+      'TroubleIndent',
+      'TroubleText',
+      'TroubleTextInformation',
+      'TroubleTextWarning',
+      'TroubleTextError',
+      'TroubleTextHint',
+      'TroubleClose',
+      'TroublePreview',
+      'TroubleNormalNC',
+      'TroubleSignColumnNC',
+      'TroublePreviewNC',
+      'TroubleCountNC',
+      'TroubleCodeNC',
+      'TroubleSourceNC',
+      'TroubleLocationNC',
+      'TroubleFoldIconNC',
+      'TroubleIndentNC',
+      'TroubleTextNC',
+      'TroubleTextInformationNC',
+      'TroubleTextWarningNC',
+      'TroubleTextErrorNC',
+      'TroubleTextHintNC',
+      'TroubleCloseNC',
+      'BufferLineFill',
+      'BufferLineBackground',
+      'BufferLineBuffer',
+      'BufferLineTab',
+      'BufferLineTabSelected',
+      'BufferLineTabClose',
+      'BufferLineCloseButton',
+      'BufferLineCloseButtonVisible',
+      'BufferLineCloseButtonSelected',
+      'BufferLineBufferVisible',
+      'BufferLineBufferSelected',
+      'BufferLineNumbers',
+      'BufferLineNumbersVisible',
+      'BufferLineNumbersSelected',
+      'BufferLineDiagnostic',
+      'BufferLineDiagnosticVisible',
+      'BufferLineDiagnosticSelected',
+      'BufferLineHint',
+      'BufferLineHintVisible',
+      'BufferLineHintSelected',
+      'BufferLineHintDiagnostic',
+      'BufferLineHintDiagnosticVisible',
+      'BufferLineHintDiagnosticSelected',
+      'BufferLineInfo',
+      'BufferLineInfoVisible',
+      'BufferLineInfoSelected',
+      'BufferLineInfoDiagnostic',
+      'BufferLineInfoDiagnosticVisible',
+      'BufferLineInfoDiagnosticSelected',
+      'BufferLineWarning',
+      'BufferLineWarningVisible',
+      'BufferLineWarningSelected',
+      'BufferLineWarningDiagnostic',
+      'BufferLineWarningDiagnosticVisible',
+      'BufferLineWarningDiagnosticSelected',
+      'BufferLineError',
+      'BufferLineErrorVisible',
+      'BufferLineErrorSelected',
+      'BufferLineErrorDiagnostic',
+      'BufferLineErrorDiagnosticVisible',
+      'BufferLineErrorDiagnosticSelected',
+      'BufferLineSeparator',
+      'BufferLineSeparatorVisible',
+      'BufferLineSeparatorSelected',
+      'BufferLineIndicator',
+      'BufferLineIndicatorVisible',
+      'BufferLineIndicatorSelected',
+      'BufferLineModified',
+      'BufferLineModifiedVisible',
+      'BufferLineModifiedSelected',
+      'BufferLineDuplicate',
+      'BufferLineDuplicateVisible',
+      'BufferLineDuplicateSelected',
+      'BufferLinePick',
+      'BufferLinePickVisible',
+      'BufferLinePickSelected',
+      'BufferLineOffsetSeparator',
+      'BufferLineGroupLabel',
+      'BufferLineGroupSeparator',
+    }
   end,
 }

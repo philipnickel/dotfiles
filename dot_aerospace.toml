@@ -18,7 +18,7 @@ enable-normalization-opposite-orientation-for-nested-containers = true
 # See: https://nikitabobko.github.io/AeroSpace/guide#layouts
 # The 'accordion-padding' specifies the size of accordion padding
 # You can set 0 to disable the padding feature
-accordion-padding = 1
+accordion-padding = 2
 
 # Possible values: tiles|accordion
 default-root-container-layout = 'tiles'
@@ -44,12 +44,12 @@ automatically-unhide-macos-hidden-apps = true
 # Gaps between windows (inner-*) and between monitor edges (outer-*).
 # Matches the padding/window_gap values from the yabai config
 [gaps]
-    inner.horizontal = 1
-    inner.vertical =   1
-    outer.left =       1
-    outer.bottom =     1
-    outer.top =        1
-    outer.right =      1
+    inner.horizontal = 2
+    inner.vertical =   2
+    outer.left =       2
+    outer.bottom =     2
+    outer.top =        2
+    outer.right =      2
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
