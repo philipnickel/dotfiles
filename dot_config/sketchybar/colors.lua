@@ -1,24 +1,24 @@
 return {
-  black = 0x00ffc799,
-  white = 0xffffc799,
-  red = 0xfffc5d7c,
-  green = 0xff9ed072,
-  blue = 0xff76cce0,
-  yellow = 0xffe7c664,
-  orange = 0xfff39660,
-  magenta = 0xffb39df3,
-  grey = 0xffffc799,
+  black = 0x002c2e42,
+  white = 0xffffffff,
+  red = 0xffffffff,
+  green = 0xffffffff,
+  blue = 0xffffffff,
+  yellow = 0xffffffff,
+  orange = 0xffffffff,
+  magenta = 0xffffffff,
+  grey = 0xccffffff,
   transparent = 0x00000000,
 
   bar = {
-    bg = 0x802c2e42,
-    border = 0x802c2e42,
+    bg = 0x00000000,
+    border = 0x00000000,
   },
   popup = {
     bg = 0x802c2e42,
     border = 0x802c2e42,
   },
-  bg1 = 0x802c2e42,
+  bg1 = 0x402c2e42,
   bg2 = 0x00000000,
 
   with_alpha = function(color, alpha)
