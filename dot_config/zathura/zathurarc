@@ -28,14 +28,22 @@ set statusbar-fg                "#E5E9F0"
 set highlight-color             "#D08770"
 set highlight-active-color      "#BF616A"
 
-set default-bg                  "#2E3440"
-set default-fg                  "#D8DEE9"
-set render-loading              "true"
-set render-loading-bg           "#2E3440"
-set render-loading-fg           "#434C5E"
+#set default-bg                  "#2E3440"
+#set default-fg                  "#D8DEE9"
+set default-bg                  rgba(40,42,54,0.75)   # Background
+set default-fg                  rgba(248,248,242,1)   # Foreground
+#set render-loading              "true"
+#set render-loading-bg           "#2E3440"
+#set render-loading-fg           "#434C5E"
+set render-loading              true
+set render-loading-fg           rgba(40,42,54,0.75)   # Background
+set render-loading-bg           rgba(248,248,242,1)    # Foreground
 
-set recolor-lightcolor          "#2E3440"
-set recolor-darkcolor           "#ECEFF4"
+
+#set recolor-lightcolor          "#2E3440"
+#set recolor-darkcolor           "#ECEFF4"
+set recolor-lightcolor          rgba(40,42,54,0.75)   # Background
+set recolor-darkcolor           rgba(248,248,242,1)   # Foreground
 set recolor                     "true"
 
 

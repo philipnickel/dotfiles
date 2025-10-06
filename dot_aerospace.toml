@@ -87,6 +87,8 @@ automatically-unhide-macos-hidden-apps = true
     cmd-alt-ctrl-4 = 'workspace 4'
     cmd-alt-ctrl-5 = 'workspace 5'
     cmd-alt-ctrl-6 = 'workspace 6'
+    cmd-alt-ctrl-7 = 'workspace 7'
+    cmd-alt-ctrl-8 = 'workspace 8'
     cmd-alt-ctrl-m = 'workspace-back-and-forth'
 
 
@@ -97,6 +99,8 @@ automatically-unhide-macos-hidden-apps = true
     cmd-alt-ctrl-shift-4 = ['move-node-to-workspace 4', 'workspace 4']
     cmd-alt-ctrl-shift-5 = ['move-node-to-workspace 5', 'workspace 5']
     cmd-alt-ctrl-shift-6 = ['move-node-to-workspace 6', 'workspace 6']
+    cmd-alt-ctrl-shift-7 = ['move-node-to-workspace 7', 'workspace 7']
+    cmd-alt-ctrl-shift-8 = ['move-node-to-workspace 8', 'workspace 8']
 
     # Quick utility bindings
     cmd-alt-ctrl-y = 'reload-config'

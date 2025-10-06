@@ -20,55 +20,57 @@ return {
       end
     end
 
-    -- Custom Nord theme for lualine to match tmux status line exactly
+    local transparent = 'NONE'
+
+    -- Custom Nord theme for lualine that keeps the statusline transparent
     local nord_theme = {
       normal = {
-        a = { fg = '#2E3440', bg = '#5E81AC', gui = 'bold' },
-        b = { fg = '#D8DEE9', bg = '#3B4252' },
-        c = { fg = '#D8DEE9', bg = '#2E3440' },
-        x = { fg = '#D8DEE9', bg = '#2E3440' },
-        y = { fg = '#D8DEE9', bg = '#3B4252' },
-        z = { fg = '#2E3440', bg = '#5E81AC', gui = 'bold' }
+        a = { fg = '#5E81AC', bg = transparent, gui = 'bold' },
+        b = { fg = '#D8DEE9', bg = transparent },
+        c = { fg = '#D8DEE9', bg = transparent },
+        x = { fg = '#D8DEE9', bg = transparent },
+        y = { fg = '#D8DEE9', bg = transparent },
+        z = { fg = '#5E81AC', bg = transparent, gui = 'bold' }
       },
       insert = {
-        a = { fg = '#2E3440', bg = '#A3BE8C', gui = 'bold' },
-        b = { fg = '#D8DEE9', bg = '#3B4252' },
-        c = { fg = '#D8DEE9', bg = '#2E3440' },
-        x = { fg = '#D8DEE9', bg = '#2E3440' },
-        y = { fg = '#D8DEE9', bg = '#3B4252' },
-        z = { fg = '#2E3440', bg = '#A3BE8C', gui = 'bold' }
+        a = { fg = '#A3BE8C', bg = transparent, gui = 'bold' },
+        b = { fg = '#D8DEE9', bg = transparent },
+        c = { fg = '#D8DEE9', bg = transparent },
+        x = { fg = '#D8DEE9', bg = transparent },
+        y = { fg = '#D8DEE9', bg = transparent },
+        z = { fg = '#A3BE8C', bg = transparent, gui = 'bold' }
       },
       visual = {
-        a = { fg = '#2E3440', bg = '#D08770', gui = 'bold' },
-        b = { fg = '#D8DEE9', bg = '#3B4252' },
-        c = { fg = '#D8DEE9', bg = '#2E3440' },
-        x = { fg = '#D8DEE9', bg = '#2E3440' },
-        y = { fg = '#D8DEE9', bg = '#3B4252' },
-        z = { fg = '#2E3440', bg = '#D08770', gui = 'bold' }
+        a = { fg = '#D08770', bg = transparent, gui = 'bold' },
+        b = { fg = '#D8DEE9', bg = transparent },
+        c = { fg = '#D8DEE9', bg = transparent },
+        x = { fg = '#D8DEE9', bg = transparent },
+        y = { fg = '#D8DEE9', bg = transparent },
+        z = { fg = '#D08770', bg = transparent, gui = 'bold' }
       },
       replace = {
-        a = { fg = '#2E3440', bg = '#BF616A', gui = 'bold' },
-        b = { fg = '#D8DEE9', bg = '#3B4252' },
-        c = { fg = '#D8DEE9', bg = '#2E3440' },
-        x = { fg = '#D8DEE9', bg = '#2E3440' },
-        y = { fg = '#D8DEE9', bg = '#3B4252' },
-        z = { fg = '#2E3440', bg = '#BF616A', gui = 'bold' }
+        a = { fg = '#BF616A', bg = transparent, gui = 'bold' },
+        b = { fg = '#D8DEE9', bg = transparent },
+        c = { fg = '#D8DEE9', bg = transparent },
+        x = { fg = '#D8DEE9', bg = transparent },
+        y = { fg = '#D8DEE9', bg = transparent },
+        z = { fg = '#BF616A', bg = transparent, gui = 'bold' }
       },
       command = {
-        a = { fg = '#2E3440', bg = '#B48EAD', gui = 'bold' },
-        b = { fg = '#D8DEE9', bg = '#3B4252' },
-        c = { fg = '#D8DEE9', bg = '#2E3440' },
-        x = { fg = '#D8DEE9', bg = '#2E3440' },
-        y = { fg = '#D8DEE9', bg = '#3B4252' },
-        z = { fg = '#2E3440', bg = '#B48EAD', gui = 'bold' }
+        a = { fg = '#B48EAD', bg = transparent, gui = 'bold' },
+        b = { fg = '#D8DEE9', bg = transparent },
+        c = { fg = '#D8DEE9', bg = transparent },
+        x = { fg = '#D8DEE9', bg = transparent },
+        y = { fg = '#D8DEE9', bg = transparent },
+        z = { fg = '#B48EAD', bg = transparent, gui = 'bold' }
       },
       inactive = {
-        a = { fg = '#4C566A', bg = '#3B4252', gui = 'bold' },
-        b = { fg = '#4C566A', bg = '#3B4252' },
-        c = { fg = '#4C566A', bg = '#2E3440' },
-        x = { fg = '#4C566A', bg = '#2E3440' },
-        y = { fg = '#4C566A', bg = '#3B4252' },
-        z = { fg = '#4C566A', bg = '#3B4252' }
+        a = { fg = '#4C566A', bg = transparent, gui = 'bold' },
+        b = { fg = '#4C566A', bg = transparent },
+        c = { fg = '#4C566A', bg = transparent },
+        x = { fg = '#4C566A', bg = transparent },
+        y = { fg = '#4C566A', bg = transparent },
+        z = { fg = '#4C566A', bg = transparent }
       }
     }
 
@@ -128,58 +130,5 @@ return {
       extensions = {},
     })
 
-    -- Force lualine highlight groups to match tmux status line exactly
-    vim.api.nvim_set_hl(0, 'LualineNormal', { bg = '#2E3440', fg = '#D8DEE9' })
-    vim.api.nvim_set_hl(0, 'LualineInsert', { bg = '#2E3440', fg = '#D8DEE9' })
-    vim.api.nvim_set_hl(0, 'LualineVisual', { bg = '#2E3440', fg = '#D8DEE9' })
-    vim.api.nvim_set_hl(0, 'LualineReplace', { bg = '#2E3440', fg = '#D8DEE9' })
-    vim.api.nvim_set_hl(0, 'LualineCommand', { bg = '#2E3440', fg = '#D8DEE9' })
-    vim.api.nvim_set_hl(0, 'LualineInactive', { bg = '#2E3440', fg = '#4C566A' })
-    
-    -- Mode-specific highlight groups (matching tmux status line)
-    vim.api.nvim_set_hl(0, 'LualineANormal', { bg = '#5E81AC', fg = '#2E3440', bold = true })
-    vim.api.nvim_set_hl(0, 'LualineAInsert', { bg = '#A3BE8C', fg = '#2E3440', bold = true })
-    vim.api.nvim_set_hl(0, 'LualineAVisual', { bg = '#D08770', fg = '#2E3440', bold = true })
-    vim.api.nvim_set_hl(0, 'LualineAReplace', { bg = '#BF616A', fg = '#2E3440', bold = true })
-    vim.api.nvim_set_hl(0, 'LualineACommand', { bg = '#B48EAD', fg = '#2E3440', bold = true })
-    vim.api.nvim_set_hl(0, 'LualineAInactive', { bg = '#3B4252', fg = '#4C566A', bold = true })
-    
-    vim.api.nvim_set_hl(0, 'LualineZNormal', { bg = '#5E81AC', fg = '#2E3440', bold = true })
-    vim.api.nvim_set_hl(0, 'LualineZInsert', { bg = '#A3BE8C', fg = '#2E3440', bold = true })
-    vim.api.nvim_set_hl(0, 'LualineZVisual', { bg = '#D08770', fg = '#2E3440', bold = true })
-    vim.api.nvim_set_hl(0, 'LualineZReplace', { bg = '#BF616A', fg = '#2E3440', bold = true })
-    vim.api.nvim_set_hl(0, 'LualineZCommand', { bg = '#B48EAD', fg = '#2E3440', bold = true })
-    vim.api.nvim_set_hl(0, 'LualineZInactive', { bg = '#3B4252', fg = '#4C566A', bold = true })
-    
-    -- Section-specific highlight groups (matching tmux status line)
-    vim.api.nvim_set_hl(0, 'LualineBNormal', { bg = '#3B4252', fg = '#D8DEE9' })
-    vim.api.nvim_set_hl(0, 'LualineCNormal', { bg = '#2E3440', fg = '#D8DEE9' })
-    vim.api.nvim_set_hl(0, 'LualineXNormal', { bg = '#2E3440', fg = '#D8DEE9' })
-    vim.api.nvim_set_hl(0, 'LualineYNormal', { bg = '#3B4252', fg = '#D8DEE9' })
-    
-    vim.api.nvim_set_hl(0, 'LualineBInsert', { bg = '#3B4252', fg = '#D8DEE9' })
-    vim.api.nvim_set_hl(0, 'LualineCInsert', { bg = '#2E3440', fg = '#D8DEE9' })
-    vim.api.nvim_set_hl(0, 'LualineXInsert', { bg = '#2E3440', fg = '#D8DEE9' })
-    vim.api.nvim_set_hl(0, 'LualineYInsert', { bg = '#3B4252', fg = '#D8DEE9' })
-    
-    vim.api.nvim_set_hl(0, 'LualineBVisual', { bg = '#3B4252', fg = '#D8DEE9' })
-    vim.api.nvim_set_hl(0, 'LualineCVisual', { bg = '#2E3440', fg = '#D8DEE9' })
-    vim.api.nvim_set_hl(0, 'LualineXVisual', { bg = '#2E3440', fg = '#D8DEE9' })
-    vim.api.nvim_set_hl(0, 'LualineYVisual', { bg = '#3B4252', fg = '#D8DEE9' })
-    
-    vim.api.nvim_set_hl(0, 'LualineBReplace', { bg = '#3B4252', fg = '#D8DEE9' })
-    vim.api.nvim_set_hl(0, 'LualineCReplace', { bg = '#2E3440', fg = '#D8DEE9' })
-    vim.api.nvim_set_hl(0, 'LualineXReplace', { bg = '#2E3440', fg = '#D8DEE9' })
-    vim.api.nvim_set_hl(0, 'LualineYReplace', { bg = '#3B4252', fg = '#D8DEE9' })
-    
-    vim.api.nvim_set_hl(0, 'LualineBCommand', { bg = '#3B4252', fg = '#D8DEE9' })
-    vim.api.nvim_set_hl(0, 'LualineCCommand', { bg = '#2E3440', fg = '#D8DEE9' })
-    vim.api.nvim_set_hl(0, 'LualineXCommand', { bg = '#2E3440', fg = '#D8DEE9' })
-    vim.api.nvim_set_hl(0, 'LualineYCommand', { bg = '#3B4252', fg = '#D8DEE9' })
-    
-    vim.api.nvim_set_hl(0, 'LualineBInactive', { bg = '#3B4252', fg = '#4C566A' })
-    vim.api.nvim_set_hl(0, 'LualineCInactive', { bg = '#2E3440', fg = '#4C566A' })
-    vim.api.nvim_set_hl(0, 'LualineXInactive', { bg = '#2E3440', fg = '#4C566A' })
-    vim.api.nvim_set_hl(0, 'LualineYInactive', { bg = '#3B4252', fg = '#4C566A' })
   end,
 }

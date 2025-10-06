@@ -63,17 +63,33 @@ return {
     end
 
     local function make_transparent(groups)
+      local attrs = {
+        'fg',
+        'ctermfg',
+        'bold',
+        'italic',
+        'underline',
+        'undercurl',
+        'strikethrough',
+        'reverse',
+        'nocombine',
+        'blend',
+        'sp',
+      }
+
       for _, group in ipairs(groups) do
+        local opts = { bg = 'NONE', ctermbg = nil }
         local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = group, link = false })
+
         if ok and hl then
-          local has_bg = hl.bg ~= nil or hl.ctermbg ~= nil
-          if has_bg then
-            hl.bg = 'NONE'
-            hl.ctermbg = nil
-            hl.link = nil
-            set_hl(group, hl)
+          for _, key in ipairs(attrs) do
+            if hl[key] ~= nil then
+              opts[key] = hl[key]
+            end
           end
         end
+
+        set_hl(group, opts)
       end
     end
 
@@ -404,6 +420,7 @@ return {
     -- Bufferline configuration with Nord colors
     local ok_bufferline, bufferline = pcall(require, 'bufferline')
     if ok_bufferline then
+      local none = 'NONE'
       bufferline.setup {
         options = {
           style_preset = bufferline.style_preset.minimal,
@@ -411,6 +428,7 @@ return {
           indicator = {
             style = 'none',
           },
+          themable = false,
           close_command = function(bufnum)
             require('bufferline').buf_kill('bd', bufnum, false)
           end,
@@ -431,199 +449,58 @@ return {
           },
         },
         highlights = {
-          fill = {
-            bg = nord_colors.nord0,
-          },
-          background = {
-            bg = nord_colors.nord0,
-            fg = nord_colors.nord3,
-          },
-          tab = {
-            bg = nord_colors.nord0,
-            fg = nord_colors.nord3,
-          },
-          tab_selected = {
-            bg = nord_colors.nord10,
-            fg = nord_colors.nord6,
-          },
-          tab_close = {
-            bg = nord_colors.nord0,
-            fg = nord_colors.nord3,
-          },
-          close_button = {
-            bg = nord_colors.nord0,
-            fg = nord_colors.nord3,
-          },
-          close_button_visible = {
-            bg = nord_colors.nord0,
-            fg = nord_colors.nord3,
-          },
-          close_button_selected = {
-            bg = nord_colors.nord10,
-            fg = nord_colors.nord6,
-          },
-          buffer_selected = {
-            bg = nord_colors.nord10,
-            fg = nord_colors.nord6,
-            bold = true,
-          },
-          buffer_visible = {
-            bg = nord_colors.nord1,
-            fg = nord_colors.nord4,
-          },
-          numbers = {
-            bg = nord_colors.nord0,
-            fg = nord_colors.nord3,
-          },
-          numbers_visible = {
-            bg = nord_colors.nord1,
-            fg = nord_colors.nord3,
-          },
-          numbers_selected = {
-            bg = nord_colors.nord10,
-            fg = nord_colors.nord6,
-          },
-          diagnostic = {
-            bg = nord_colors.nord0,
-            fg = nord_colors.nord3,
-          },
-          diagnostic_visible = {
-            bg = nord_colors.nord1,
-            fg = nord_colors.nord3,
-          },
-          diagnostic_selected = {
-            bg = nord_colors.nord10,
-            fg = nord_colors.nord6,
-          },
-          hint = {
-            bg = nord_colors.nord0,
-            fg = nord_colors.nord7,
-          },
-          hint_visible = {
-            bg = nord_colors.nord1,
-            fg = nord_colors.nord7,
-          },
-          hint_selected = {
-            bg = nord_colors.nord10,
-            fg = nord_colors.nord7,
-          },
-          hint_diagnostic = {
-            bg = nord_colors.nord0,
-            fg = nord_colors.nord7,
-          },
-          hint_diagnostic_visible = {
-            bg = nord_colors.nord1,
-            fg = nord_colors.nord7,
-          },
-          hint_diagnostic_selected = {
-            bg = nord_colors.nord10,
-            fg = nord_colors.nord7,
-          },
-          info = {
-            bg = nord_colors.nord0,
-            fg = nord_colors.nord8,
-          },
-          info_visible = {
-            bg = nord_colors.nord1,
-            fg = nord_colors.nord8,
-          },
-          info_selected = {
-            bg = nord_colors.nord10,
-            fg = nord_colors.nord8,
-          },
-          info_diagnostic = {
-            bg = nord_colors.nord0,
-            fg = nord_colors.nord8,
-          },
-          info_diagnostic_visible = {
-            bg = nord_colors.nord1,
-            fg = nord_colors.nord8,
-          },
-          info_diagnostic_selected = {
-            bg = nord_colors.nord10,
-            fg = nord_colors.nord8,
-          },
-          warning = {
-            bg = nord_colors.nord0,
-            fg = nord_colors.nord13,
-          },
-          warning_visible = {
-            bg = nord_colors.nord1,
-            fg = nord_colors.nord13,
-          },
-          warning_selected = {
-            bg = nord_colors.nord10,
-            fg = nord_colors.nord13,
-          },
-          warning_diagnostic = {
-            bg = nord_colors.nord0,
-            fg = nord_colors.nord13,
-          },
-          warning_diagnostic_visible = {
-            bg = nord_colors.nord1,
-            fg = nord_colors.nord13,
-          },
-          warning_diagnostic_selected = {
-            bg = nord_colors.nord10,
-            fg = nord_colors.nord13,
-          },
-          error = {
-            bg = nord_colors.nord0,
-            fg = nord_colors.nord11,
-          },
-          error_visible = {
-            bg = nord_colors.nord1,
-            fg = nord_colors.nord11,
-          },
-          error_selected = {
-            bg = nord_colors.nord10,
-            fg = nord_colors.nord11,
-          },
-          error_diagnostic = {
-            bg = nord_colors.nord0,
-            fg = nord_colors.nord11,
-          },
-          error_diagnostic_visible = {
-            bg = nord_colors.nord1,
-            fg = nord_colors.nord11,
-          },
-          error_diagnostic_selected = {
-            bg = nord_colors.nord10,
-            fg = nord_colors.nord11,
-          },
-          modified = {
-            bg = nord_colors.nord0,
-            fg = nord_colors.nord12,
-          },
-          modified_visible = {
-            bg = nord_colors.nord1,
-            fg = nord_colors.nord12,
-          },
-          modified_selected = {
-            bg = nord_colors.nord10,
-            fg = nord_colors.nord12,
-          },
-          separator = {
-            bg = nord_colors.nord0,
-            fg = nord_colors.nord0,
-          },
-          separator_visible = {
-            bg = nord_colors.nord1,
-            fg = nord_colors.nord1,
-          },
-          separator_selected = {
-            bg = nord_colors.nord10,
-            fg = nord_colors.nord10,
-          },
-          indicator_selected = {
-            bg = nord_colors.nord10,
-            fg = nord_colors.nord6,
-          },
+          fill = { bg = none },
+          background = { bg = none, fg = nord_colors.nord3 },
+          tab = { bg = none, fg = nord_colors.nord3 },
+          tab_selected = { bg = none, fg = nord_colors.nord6, bold = true },
+          tab_close = { bg = none, fg = nord_colors.nord3 },
+          close_button = { bg = none, fg = nord_colors.nord3 },
+          close_button_visible = { bg = none, fg = nord_colors.nord3 },
+          close_button_selected = { bg = none, fg = nord_colors.nord6 },
+          buffer_selected = { bg = none, fg = nord_colors.nord6, bold = true },
+          buffer_visible = { bg = none, fg = nord_colors.nord4 },
+          numbers = { bg = none, fg = nord_colors.nord3 },
+          numbers_visible = { bg = none, fg = nord_colors.nord3 },
+          numbers_selected = { bg = none, fg = nord_colors.nord6 },
+          diagnostic = { bg = none, fg = nord_colors.nord3 },
+          diagnostic_visible = { bg = none, fg = nord_colors.nord3 },
+          diagnostic_selected = { bg = none, fg = nord_colors.nord6 },
+          hint = { bg = none, fg = nord_colors.nord7 },
+          hint_visible = { bg = none, fg = nord_colors.nord7 },
+          hint_selected = { bg = none, fg = nord_colors.nord7 },
+          hint_diagnostic = { bg = none, fg = nord_colors.nord7 },
+          hint_diagnostic_visible = { bg = none, fg = nord_colors.nord7 },
+          hint_diagnostic_selected = { bg = none, fg = nord_colors.nord7 },
+          info = { bg = none, fg = nord_colors.nord8 },
+          info_visible = { bg = none, fg = nord_colors.nord8 },
+          info_selected = { bg = none, fg = nord_colors.nord8 },
+          info_diagnostic = { bg = none, fg = nord_colors.nord8 },
+          info_diagnostic_visible = { bg = none, fg = nord_colors.nord8 },
+          info_diagnostic_selected = { bg = none, fg = nord_colors.nord8 },
+          warning = { bg = none, fg = nord_colors.nord13 },
+          warning_visible = { bg = none, fg = nord_colors.nord13 },
+          warning_selected = { bg = none, fg = nord_colors.nord13 },
+          warning_diagnostic = { bg = none, fg = nord_colors.nord13 },
+          warning_diagnostic_visible = { bg = none, fg = nord_colors.nord13 },
+          warning_diagnostic_selected = { bg = none, fg = nord_colors.nord13 },
+          error = { bg = none, fg = nord_colors.nord11 },
+          error_visible = { bg = none, fg = nord_colors.nord11 },
+          error_selected = { bg = none, fg = nord_colors.nord11 },
+          error_diagnostic = { bg = none, fg = nord_colors.nord11 },
+          error_diagnostic_visible = { bg = none, fg = nord_colors.nord11 },
+          error_diagnostic_selected = { bg = none, fg = nord_colors.nord11 },
+          modified = { bg = none, fg = nord_colors.nord12 },
+          modified_visible = { bg = none, fg = nord_colors.nord12 },
+          modified_selected = { bg = none, fg = nord_colors.nord12 },
+          separator = { bg = none, fg = nord_colors.nord3 },
+          separator_visible = { bg = none, fg = nord_colors.nord3 },
+          separator_selected = { bg = none, fg = nord_colors.nord6 },
+          indicator_selected = { bg = none, fg = nord_colors.nord6 },
         },
       }
     end
 
-    make_transparent {
+    local transparent_groups = {
       'Normal',
       'NormalNC',
       'NormalFloat',
@@ -736,6 +613,69 @@ return {
       'BufferLineOffsetSeparator',
       'BufferLineGroupLabel',
       'BufferLineGroupSeparator',
+      'BufferLineTruncMarker',
+      'BufferLineTabSeparator',
+      'BufferLineTabSeparatorVisible',
+      'BufferLineTabSeparatorSelected',
+      'BufferLineGroupSeparator',
+      'BufferLineGroupSeparatorVisible',
+      'BufferLineGroupSeparatorSelected',
+      'TabLine',
+      'TabLineFill',
+      'TabLineSel',
+      'TabLineSeparator',
+      'TabLineSeparatorSel',
+      'LualineNormal',
+      'LualineInsert',
+      'LualineVisual',
+      'LualineReplace',
+      'LualineCommand',
+      'LualineInactive',
+      'LualineANormal',
+      'LualineBNormal',
+      'LualineCNormal',
+      'LualineXNormal',
+      'LualineYNormal',
+      'LualineZNormal',
+      'LualineAInsert',
+      'LualineBInsert',
+      'LualineCInsert',
+      'LualineXInsert',
+      'LualineYInsert',
+      'LualineZInsert',
+      'LualineAVisual',
+      'LualineBVisual',
+      'LualineCVisual',
+      'LualineXVisual',
+      'LualineYVisual',
+      'LualineZVisual',
+      'LualineAReplace',
+      'LualineBReplace',
+      'LualineCReplace',
+      'LualineXReplace',
+      'LualineYReplace',
+      'LualineZReplace',
+      'LualineACommand',
+      'LualineBCommand',
+      'LualineCCommand',
+      'LualineXCommand',
+      'LualineYCommand',
+      'LualineZCommand',
+      'LualineAInactive',
+      'LualineBInactive',
+      'LualineCInactive',
+      'LualineXInactive',
+      'LualineYInactive',
+      'LualineZInactive',
     }
+
+    make_transparent(transparent_groups)
+
+    vim.api.nvim_create_autocmd({ 'ColorScheme', 'BufEnter' }, {
+      group = vim.api.nvim_create_augroup('NordicTransparent', { clear = true }),
+      callback = function()
+        make_transparent(transparent_groups)
+      end,
+    })
   end,
 }
