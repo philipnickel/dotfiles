@@ -98,6 +98,7 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
+alias lg='lazygit'
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
