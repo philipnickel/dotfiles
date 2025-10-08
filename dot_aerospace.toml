@@ -89,7 +89,7 @@ automatically-unhide-macos-hidden-apps = true
     cmd-alt-ctrl-6 = 'workspace 6'
     cmd-alt-ctrl-7 = 'workspace 7'
     cmd-alt-ctrl-8 = 'workspace 8'
-    cmd-alt-ctrl-m = 'workspace-back-and-forth'
+    cmd-alt-ctrl-n = 'workspace-back-and-forth'
 
 
     # Move active window then follow focus (mirrors f18 + shift + number)

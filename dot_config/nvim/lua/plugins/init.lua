@@ -26,6 +26,8 @@ require("lazy").setup({
   { import = "plugins.markdown" },
   { import = "plugins.tmux" },
   { import = "plugins.vimtex" },
+  { import = "plugins.texpresso" },
+  { import = "plugins.telescope-zotero" },
   { import = "plugins.quarto" },
   { import = "plugins.slime" },
   { import = "plugins.jupytext" },
