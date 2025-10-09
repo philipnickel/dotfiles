@@ -186,22 +186,27 @@ return {
       { "<leader>lx", desc = "Reload", icon = "🔄" },
       { "<leader>ls", desc = "Toggle main", icon = "🔄" },
 
-      -- Run/Execute operations (Iron)
+      -- Run/Execute operations (Slime)
       { "<leader>r", group = "Run", icon = "▶️" },
-      { "<leader>rr", "<cmd>IronRepl<cr>", desc = "Toggle REPL", icon = "🔄" },
-      { "<leader>rR", "<cmd>IronRestart<cr>", desc = "Restart REPL", icon = "🔄" },
-      { "<leader>rs", desc = "Send motion", icon = "📤" },
-      { "<leader>rv", desc = "Send visual selection", icon = "📤" },
-      { "<leader>rf", desc = "Send entire file", icon = "📄" },
-      { "<leader>rl", desc = "Send current line", icon = "➡️" },
-      { "<leader>rp", desc = "Send paragraph", icon = "📝" },
-      { "<leader>ru", desc = "Send until cursor", icon = "⬆️" },
-      { "<leader>rb", desc = "Send code block (# %%)", icon = "📦" },
-      { "<leader>rn", desc = "Send code block & move", icon = "📦➡️" },
-      { "<leader>rm", desc = "Send mark", icon = "📍" },
-      { "<leader>rc", desc = "Clear REPL", icon = "🧹" },
-      { "<leader>rF", "<cmd>IronFocus<cr>", desc = "Focus REPL", icon = "🎯" },
-      { "<leader>rh", "<cmd>IronHide<cr>", desc = "Hide REPL", icon = "👁️" },
+      { "<leader>rp", desc = "Start Python REPL", icon = "🐍" },
+      { "<leader>rr", desc = "Start R REPL", icon = "📊" },
+      { "<leader>rl", desc = "Run line", icon = "➡️" },
+      { "<leader>rv", desc = "Run selection", icon = "📤" },
+      { "<leader>rb", desc = "Run cell/block (#%%)", icon = "📦" },
+      { "<leader>rf", desc = "Run file", icon = "📄" },
+
+      -- uv package manager operations
+      { "<leader>U", group = "UV", icon = "🐍" },
+      { "<leader>UU", desc = "Command picker", icon = "🧰" },
+      { "<leader>Ui", desc = "Init project", icon = "✨" },
+      { "<leader>Ur", desc = "Run file", icon = "▶️" },
+      { "<leader>Us", desc = "Run selection", icon = "📤" },
+      { "<leader>Uf", desc = "Run function", icon = "🧬" },
+      { "<leader>Ue", desc = "Manage environments", icon = "🌱" },
+      { "<leader>Ua", desc = "Add package", icon = "➕" },
+      { "<leader>Ud", desc = "Remove package", icon = "➖" },
+      { "<leader>Uc", desc = "Sync packages", icon = "🔄" },
+      { "<leader>UC", desc = "Sync all extras/groups", icon = "♻️" },
 
       -- Otter operations
       { "<leader>o", group = "Otter", icon = "🦦" },

@@ -2,15 +2,16 @@
 
 return {
   "3rd/image.nvim",
+  enabled = false,  -- Disabled due to luarocks.nvim dependency issues
   dependencies = {
     "luarocks.nvim",
   },
   -- Only load in GUI or compatible terminals
   cond = function()
-    return vim.fn.has('gui_running') == 1 or vim.env.DISPLAY or vim.env.TERM_PROGRAM == 'kitty'
+    return vim.fn.has('gui_running') == 1 or vim.env.DISPLAY or vim.env.TERM_PROGRAM == 'kitty' or vim.env.TERM_PROGRAM == 'WezTerm'
   end,
   opts = {
-    backend = "kitty",  -- or "ueberzug" or "auto"
+    backend = "auto",  -- Auto-detect backend (kitty protocol works in WezTerm too)
     integrations = {
       markdown = {
         enabled = true,

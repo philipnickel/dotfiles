@@ -30,6 +30,7 @@ require("lazy").setup({
   { import = "plugins.telescope-zotero" },
   { import = "plugins.quarto" },
   { import = "plugins.slime" },
+  { import = "plugins.uv" },
   { import = "plugins.jupytext" },
   { import = "plugins.nabla" },
   { import = "plugins.img-clip" },
@@ -52,7 +53,6 @@ require("lazy").setup({
         { import = "plugins.toggleterm" },
         { import = "plugins.aerial" },
         { import = "plugins.trouble" },
-        { import = "plugins.iron" },
   
   -- Telescope (essential for navigation)
   {
