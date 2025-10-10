@@ -8,14 +8,17 @@ config.color_scheme = 'nord'
 config.font = wezterm.font('JetBrains Mono', { weight = 'Medium' })
 config.font_size = 14.0
 
+-- Enable graphics protocols for inline images
+config.enable_kitty_graphics = true
+
 -- Let Option produce native characters (needed for DK layout brackets inside tmux)
 config.send_composed_key_when_left_alt_is_pressed = true
 config.send_composed_key_when_right_alt_is_pressed = true
 
 -- Window appearance
 config.window_decorations = "RESIZE"
-config.window_background_opacity = 0.90
-config.macos_window_background_blur = 30
+config.window_background_opacity = 0.85
+config.macos_window_background_blur = 50
 config.initial_rows = 50
 -- config.initial_cols = 200
 

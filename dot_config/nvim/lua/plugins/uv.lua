@@ -12,16 +12,15 @@ return {
     "UVRemovePackage",
   },
   keys = {
-    { "<leader>UU", mode = "n", desc = "UV command palette" },
-    { "<leader>Ui", mode = "n", desc = "UV init project" },
-    { "<leader>Ur", mode = "n", desc = "UV run file" },
-    { "<leader>Us", mode = "v", desc = "UV run selection" },
-    { "<leader>Uf", mode = "n", desc = "UV run function" },
-    { "<leader>Ue", mode = "n", desc = "UV environments" },
-    { "<leader>Ua", mode = "n", desc = "UV add package" },
-    { "<leader>Ud", mode = "n", desc = "UV remove package" },
-    { "<leader>Uc", mode = "n", desc = "UV sync packages" },
-    { "<leader>UC", mode = "n", desc = "UV sync everything" },
+    { "<leader>up", mode = "n", desc = "uv command palette" },
+    { "<leader>ui", mode = "n", desc = "uv init project" },
+    { "<leader>ur", mode = "n", desc = "uv run file" },
+    { "<leader>us", mode = "v", desc = "uv run selection" },
+    { "<leader>uf", mode = "n", desc = "uv run function" },
+    { "<leader>ue", mode = "n", desc = "uv environments" },
+    { "<leader>ua", mode = "n", desc = "uv add package" },
+    { "<leader>ud", mode = "n", desc = "uv remove package" },
+    { "<leader>uc", mode = "n", desc = "uv sync packages" },
   },
   opts = {
     picker_integration = true,
@@ -36,7 +35,16 @@ return {
     },
   },
   config = function(_, opts)
-    local uv = require("uv")
+    local ok, uv = pcall(require, "uv")
+    if not ok then
+      vim.notify("uv.nvim failed to load module 'uv'. Please check the plugin installation.", vim.log.levels.ERROR)
+      return
+    end
+
+    if vim.fn.executable("uv") ~= 1 then
+      vim.notify("uv binary not found in PATH. Install uv to use uv.nvim features.", vim.log.levels.WARN)
+    end
+
     uv.setup(opts)
 
     local function map(mode, lhs, rhs, desc)
@@ -91,19 +99,17 @@ return {
       end)
     end
 
-    map("n", "<leader>UU", open_uv_commands, "UV command palette")
-    map("n", "<leader>Ui", "<cmd>UVInit<CR>", "UV init project")
-    map("n", "<leader>Ur", "<cmd>UVRunFile<CR>", "UV run current file")
-    map("v", "<leader>Us", ":<C-u>UVRunSelection<CR>", "UV run selection")
-    map("n", "<leader>Uf", "<cmd>UVRunFunction<CR>", "UV run function")
-    map("n", "<leader>Ue", open_uv_venvs, "UV virtual environments")
-    map("n", "<leader>Ua", prompt_add_package, "UV add package")
-    map("n", "<leader>Ud", prompt_remove_package, "UV remove package")
-    map("n", "<leader>Uc", function()
+    map("n", "<leader>up", open_uv_commands, "UV command palette")
+    map("n", "<leader>ui", "<cmd>UVInit<CR>", "UV init project")
+    map("n", "<leader>ur", "<cmd>UVRunFile<CR>", "UV run current file")
+    map("v", "<leader>us", ":<C-u>UVRunSelection<CR>", "UV run selection")
+    map("n", "<leader>uf", "<cmd>UVRunFunction<CR>", "UV run function")
+    map("n", "<leader>ue", open_uv_venvs, "UV virtual environments")
+    map("n", "<leader>ua", prompt_add_package, "UV add package")
+    map("n", "<leader>ud", prompt_remove_package, "UV remove package")
+    map("n", "<leader>uc", function()
       uv.run_command("uv sync")
     end, "UV sync packages")
-    map("n", "<leader>UC", function()
-      uv.run_command("uv sync --all-extras --all-packages --all-groups")
-    end, "UV sync extras/groups")
+
   end,
 }

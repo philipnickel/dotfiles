@@ -1,11 +1,6 @@
 -- Quarto filetype specific settings
 local api = vim.api
 
--- Set cell delimiter for vim-slime
-vim.b.slime_cell_delimiter = '```'
-vim.b['quarto_is_r_mode'] = nil
-vim.b['reticulate_running'] = false
-
 -- Set comment string for Quarto files (using HTML comments)
 vim.bo.commentstring = '<!-- %s -->'
 

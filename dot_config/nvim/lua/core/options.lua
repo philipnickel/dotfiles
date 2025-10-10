@@ -1,5 +1,88 @@
 -- Core Neovim options and settings
 
+-- Python provider: prefer active virtualenv (uv), then uv-managed default, then system python
+local function normalize(path)
+  if not path or path == "" then
+    return nil
+  end
+  path = vim.fn.expand(path)
+  local stat = vim.loop.fs_stat(path) or vim.loop.fs_lstat(path)
+  if stat and (stat.type == "file" or stat.type == "link") then
+    return path
+  end
+  return nil
+end
+
+local default_uv_python = normalize("~/.local/share/uv/nvim-python/bin/python")
+if default_uv_python then
+  vim.g.python3_host_prog = default_uv_python
+end
+
+local ensured_hosts = {}
+
+local function ensure_python_host_packages(host)
+  if not host or host == "" or ensured_hosts[host] then
+    return
+  end
+  if vim.fn.executable("uv") ~= 1 then
+    return
+  end
+  local args = {
+    "uv",
+    "pip",
+    "install",
+    "--python",
+    host,
+    "pynvim",
+  }
+  local result = vim.system(args):wait()
+  if result and result.code == 0 then
+    ensured_hosts[host] = true
+  end
+end
+
+local function update_python_host()
+  local venv = vim.env.VIRTUAL_ENV
+  if venv and venv ~= "" then
+    local venv_python = normalize(venv .. "/bin/python")
+    if not venv_python then
+      venv_python = normalize(venv .. "/Scripts/python.exe")
+    end
+    if venv_python then
+      if vim.g.python3_host_prog ~= venv_python then
+        vim.g.python3_host_prog = venv_python
+      end
+      ensure_python_host_packages(vim.g.python3_host_prog)
+      return
+    end
+  end
+
+  if default_uv_python then
+    if vim.g.python3_host_prog ~= default_uv_python then
+      vim.g.python3_host_prog = default_uv_python
+    end
+    ensure_python_host_packages(vim.g.python3_host_prog)
+    return
+  end
+
+  local system_python = normalize(vim.fn.exepath("python3"))
+  if not system_python then
+    system_python = normalize(vim.fn.exepath("python"))
+  end
+  if system_python then
+    vim.g.python3_host_prog = system_python
+    ensure_python_host_packages(vim.g.python3_host_prog)
+  end
+end
+
+update_python_host()
+
+vim.api.nvim_create_autocmd({ "DirChanged", "BufEnter" }, {
+  callback = function()
+    update_python_host()
+  end,
+})
+
 -- Basic settings
 vim.opt.relativenumber = false
 vim.opt.wrap = true
@@ -67,16 +150,6 @@ vim.opt.ttimeoutlen = 0
 vim.opt.spell = false -- Enable manually with :set spell
 vim.opt.spelllang = { "en_us" }
 vim.opt.spellsuggest = "best,9"
-
--- Suppress deprecation warnings by overriding the deprecated function
-vim.tbl_add_reverse_lookup = function(tbl)
-  -- Create reverse lookup table without deprecation warning
-  local reverse = {}
-  for k, v in pairs(tbl) do
-    reverse[v] = k
-  end
-  return reverse
-end
 
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()

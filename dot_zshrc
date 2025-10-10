@@ -99,6 +99,9 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 alias lg='lazygit'
+
+
+alias python='python3'
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -254,3 +257,4 @@ export BROWSER="osascript -e \"tell application \\\"Zen\\\" to make new document
 # Suppress Neovim deprecation warnings
 export NVIM_APPNAME="nvim"
 export VIMRUNTIME="/opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime"
+eval "$(uv generate-shell-completion zsh)"

@@ -45,170 +45,6 @@ local function insert_code_chunk(lang)
   vim.api.nvim_feedkeys(keys, 'n', false)
 end
 
--- Terminal management functions removed - now using Iron.nvim
-
--- Native code block detection functions
-local function find_cell_boundaries()
-  local ft = vim.bo.filetype
-  local current_line = vim.fn.line('.')
-  
-  if ft == 'python' then
-    -- Look for #%% or # %% markers (more flexible regex)
-    local cell_start = vim.fn.search([[^#\s*%%]], 'bcnW')
-    local cell_end = vim.fn.search([[^#\s*%%]], 'nW')
-    return cell_start, cell_end
-  elseif ft == 'quarto' or ft == 'markdown' then
-    -- Look for ``` code blocks
-    local cell_start = vim.fn.search('^```', 'bcnW')
-    local cell_end = vim.fn.search('^```', 'nW')
-    return cell_start, cell_end
-  elseif ft == 'r' or ft == 'rmd' then
-    -- Look for ```{r} or similar chunks
-    local cell_start = vim.fn.search('^```{', 'bcnW')
-    local cell_end = vim.fn.search('^```', 'nW')
-    return cell_start, cell_end
-  end
-  
-  return nil, nil
-end
-
-local function get_current_cell_lines()
-  local cell_start, cell_end = find_cell_boundaries()
-  
-  if cell_start and cell_start > 0 then
-    local start_line = cell_start
-    local end_line = cell_end and cell_end > 0 and cell_end - 1 or vim.fn.line('$')
-    return vim.api.nvim_buf_get_lines(0, start_line, end_line, false)
-  end
-  
-  return nil
-end
-
--- Native selection-based execution
-local function execute_selection()
-  local mode = vim.fn.mode()
-  
-  if mode == 'v' or mode == 'V' or mode == '' then
-    -- We're in visual mode, execute the selection
-    local start_line = vim.fn.getpos("'<")[2]
-    local end_line = vim.fn.getpos("'>")[2]
-    local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
-    local text = table.concat(lines, '\n')
-    send_to_terminal(text, true)
-  else
-    -- Not in visual mode, try to detect current cell
-    local cell_lines = get_current_cell_lines()
-    if cell_lines then
-      local text = table.concat(cell_lines, '\n')
-      send_to_terminal(text, true)
-    else
-      -- No cell found, execute current line
-      send_to_terminal(vim.fn.getline('.'), true)
-    end
-  end
-end
-
--- Select current cell for manual execution
-local function select_current_cell()
-  local cell_start, cell_end = find_cell_boundaries()
-  
-  if cell_start and cell_start > 0 then
-    local start_line = cell_start
-    local end_line = cell_end and cell_end > 0 and cell_end - 1 or vim.fn.line('$')
-    
-    -- Set visual selection to the cell
-    vim.fn.cursor(start_line, 1)
-    vim.cmd('normal! V')
-    vim.fn.cursor(end_line, 1)
-    vim.cmd('normal! $')
-    
-    vim.notify('Cell selected - use <leader>cs to execute', vim.log.levels.INFO)
-  else
-    vim.notify('No cell found at current position', vim.log.levels.WARN)
-  end
-end
-
-local function delete_cell()
-  local ft = vim.bo.filetype
-  if ft == 'python' then
-    local current_line = vim.fn.line('.')
-    vim.fn.cursor(current_line, 1)
-    local cell_start = vim.fn.search('^#%%', 'bcnW')
-    vim.fn.cursor(current_line, 1)
-    local cell_end = vim.fn.search('^#%%', 'nW')
-    if cell_start > 0 then
-      if cell_end > 0 then
-        vim.cmd(string.format('%d,%dd', cell_start, cell_end - 1))
-      else
-        vim.cmd(string.format('%d,$d', cell_start))
-      end
-    end
-  else
-    vim.fn.cursor(vim.fn.line('.'), 1)
-    local cell_start = vim.fn.search('^```', 'bcnW')
-    if cell_start > 0 then
-      vim.fn.cursor(cell_start, 1)
-      local cell_end = vim.fn.search('^```', 'W')
-      if cell_end > 0 then
-        vim.cmd(string.format('%d,%dd', cell_start, cell_end))
-      else
-        vim.cmd(string.format('%d,$d', cell_start))
-      end
-    end
-  end
-end
-
-local function next_cell()
-  local ft = vim.bo.filetype
-  local found = 0
-  
-  if ft == 'python' then
-    found = vim.fn.search([[^#\s*%%]], 'W')
-  elseif ft == 'quarto' or ft == 'markdown' then
-    found = vim.fn.search('^```', 'W')
-  elseif ft == 'r' or ft == 'rmd' then
-    found = vim.fn.search('^```{', 'W')
-  end
-  
-  if found > 0 then
-    vim.cmd('normal! j')
-  end
-end
-
-local function prev_cell()
-  local ft = vim.bo.filetype
-  local current_line = vim.fn.line('.')
-  vim.fn.cursor(current_line - 1, 1)
-  local found = 0
-  
-  if ft == 'python' then
-    found = vim.fn.search([[^#\s*%%]], 'bW')
-  elseif ft == 'quarto' or ft == 'markdown' then
-    found = vim.fn.search('^```', 'bW')
-  elseif ft == 'r' or ft == 'rmd' then
-    found = vim.fn.search('^```{', 'bW')
-  end
-  
-  if found > 0 then
-    vim.cmd('normal! j')
-  end
-end
-
-
-local function run_cell_smart()
-  if vim.bo.filetype == 'python' then
-    -- Use toggleterm for Python execution
-    execute_selection()
-  else
-    local ok, runner = pcall(require, 'quarto.runner')
-    if ok then
-      runner.run_cell()
-    end
-  end
-end
-
--- Old code execution functions removed - now using Iron.nvim
-
 local function clean_quarto_outputs()
   local file = vim.fn.expand('%:p')
   if file == '' then
@@ -303,7 +139,10 @@ end
 
 -- Basic keymaps ------------------------------------------------------------
 
-vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle, { desc = 'Toggle undo tree' })
+vim.keymap.set('c', '<C-j>', '<Down>', { noremap = true, desc = 'Command-line down' })
+vim.keymap.set('c', '<C-k>', '<Up>', { noremap = true, desc = 'Command-line up' })
+
+vim.keymap.set('n', '<leader>hu', vim.cmd.UndotreeToggle, { desc = 'Toggle undo tree' })
 vim.keymap.set('n', '<Tab>', '<cmd>BufferLineCycleNext<cr>', { silent = true, desc = 'Next buffer' })
 vim.keymap.set('n', '<S-Tab>', '<cmd>BufferLineCyclePrev<cr>', { silent = true, desc = 'Previous buffer' })
 vim.keymap.set('n', '<leader>gg', '<cmd>LazyGit<cr>', { silent = true, desc = 'LazyGit' })
@@ -316,11 +155,6 @@ vim.keymap.set('n', '<leader>fb', '<cmd>Telescope buffers<cr>', { desc = 'Find b
 vim.keymap.set('n', '<leader>fh', '<cmd>Telescope help_tags<cr>', { desc = 'Help tags' })
 vim.keymap.set('n', '<leader>fr', '<cmd>Telescope oldfiles<cr>', { desc = 'Recent files' })
 vim.keymap.set('n', '<leader>fc', '<cmd>Telescope commands<cr>', { desc = 'Commands' })
-
--- Chezmoi operations -------------------------------------------------------
-vim.keymap.set('n', '<leader>Cf', open_chezmoi_files, { desc = 'Find managed file' })
-vim.keymap.set('n', '<leader>Ce', edit_with_chezmoi, { desc = 'Edit chezmoi target' })
-vim.keymap.set('n', '<leader>Cl', '<cmd>ChezmoiList<cr>', { desc = 'List chezmoi files' })
 
 -- Avante AI assistant ------------------------------------------------------
 vim.keymap.set('n', '<leader>aa', '<cmd>AvanteToggle<cr>', { desc = 'Avante toggle sidebar' })
@@ -350,9 +184,6 @@ vim.keymap.set('n', '<leader>li', '<cmd>VimtexInfo<cr>', { desc = 'VimTeX info' 
 vim.keymap.set('n', '<leader>lI', '<cmd>VimtexInfoAll<cr>', { desc = 'VimTeX info all' })
 vim.keymap.set('n', '<leader>ld', '<cmd>VimtexDocPackage<cr>', { desc = 'Package docs' })
 vim.keymap.set('n', '<leader>lD', '<cmd>VimtexDocPackagePrompt<cr>', { desc = 'Package docs (prompt)' })
-
--- Run / Quarto / Python keymaps removed - now using Iron.nvim
-
 
 -- Otter helpers -----------------------------------------------------------
 vim.keymap.set('n', '<leader>oa', function() pcall(require('otter').activate) end, { desc = 'Otter activate' })
@@ -405,6 +236,3 @@ vim.keymap.set('n', '<leader>sm', function()
   vim.cmd('VimtexReload')
   vim.notify('VimTeX mappings ' .. (vim.g.vimtex_imaps_enabled == 1 and 'ENABLED' or 'DISABLED'))
 end, { desc = 'Toggle VimTeX mappings' })
-
--- Markdown preview --------------------------------------------------------
-vim.keymap.set('n', '<leader>pp', '<cmd>RenderMarkdown toggle<cr>', { desc = 'Toggle Render Markdown' })

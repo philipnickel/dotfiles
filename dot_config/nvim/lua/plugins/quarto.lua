@@ -10,8 +10,7 @@ return {
         chunks = 'curly',
       },
       codeRunner = {
-        enabled = true,
-        default_method = 'iron', -- Use iron instead of slime
+        enabled = false,
       },
     },
     dependencies = {

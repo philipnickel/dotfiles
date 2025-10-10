@@ -45,15 +45,33 @@ return {
     -- Python/IPython terminal
     local python_term = Terminal:new({
       cmd = function()
-        if vim.fn.executable("ipython") == 1 then
-          return "ipython --no-confirm-exit --no-autoindent"
-        else
-          return "python"
+        local has_uv = vim.fn.executable("uv") == 1
+        local function ensure_ipython_with_uv()
+          local ok = vim.fn.system("uv run python -c \"import IPython\"")
+          if vim.v.shell_error ~= 0 then
+            vim.notify("Installing ipython via uv...", vim.log.levels.INFO)
+            vim.fn.system("uv add ipython")
+          end
         end
+
+        if has_uv then
+          ensure_ipython_with_uv()
+          -- Use PYTHONUNBUFFERED for immediate image display
+          return "PYTHONUNBUFFERED=1 uv run ipython --no-confirm-exit --no-autoindent"
+        end
+
+        if vim.fn.executable("ipython") == 1 then
+          return "PYTHONUNBUFFERED=1 ipython --no-confirm-exit --no-autoindent"
+        end
+
+        return "PYTHONUNBUFFERED=1 python"
       end,
       hidden = true,
       direction = "vertical",
       size = function() return vim.o.columns * 0.4 end,
+      env = {
+        PYTHONUNBUFFERED = "1",
+      },
     })
 
     -- R/Radian terminal
@@ -113,15 +131,22 @@ return {
       vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("exit<CR>", true, false, true), "t", true)
     end
 
-    -- Keymaps for terminal management
-    vim.keymap.set("n", "<leader>ci", function() python_term:toggle() end, { desc = "Toggle Python terminal" })
-    vim.keymap.set("n", "<leader>cr", function() r_term:toggle() end, { desc = "Toggle R terminal" })
-    vim.keymap.set("n", "<leader>cj", function() julia_term:toggle() end, { desc = "Toggle Julia terminal" })
-    vim.keymap.set("n", "<leader>cn", function() shell_term:toggle() end, { desc = "Toggle shell terminal" })
-    vim.keymap.set("n", "<leader>cf", function() float_term:toggle() end, { desc = "Toggle floating terminal" })
-    
+    local function toggle_terminal(term, enter_insert)
+      term:toggle()
+      if enter_insert then
+        vim.cmd("startinsert")
+      end
+    end
+
     -- Terminal control keymaps
-    vim.keymap.set("n", "<leader>cc", close_all_terminals, { desc = "Close all terminals" })
+    vim.keymap.set("n", "<leader>rp", function() toggle_terminal(python_term, true) end, { desc = "Python REPL" })
+    vim.keymap.set("n", "<leader>rr", function() toggle_terminal(r_term, true) end, { desc = "R REPL" })
+    vim.keymap.set("n", "<leader>rj", function() toggle_terminal(julia_term, true) end, { desc = "Julia REPL" })
+    vim.keymap.set("n", "<leader>rs", function() toggle_terminal(shell_term, true) end, { desc = "Shell terminal" })
+    vim.keymap.set("n", "<leader>rf", function() toggle_terminal(float_term, true) end, { desc = "Floating terminal" })
+    vim.keymap.set("n", "<leader>ra", close_all_terminals, { desc = "Close all terminals" })
+    vim.keymap.set("n", "<leader>rk", kill_terminal_process, { desc = "Send <C-c> to terminal" })
+    vim.keymap.set("n", "<leader>rx", exit_terminal, { desc = "Send exit to terminal" })
     vim.keymap.set("t", "<C-c>", kill_terminal_process, { desc = "Kill terminal process" })
     vim.keymap.set("t", "<C-d>", exit_terminal, { desc = "Exit terminal" })
     
@@ -132,7 +157,7 @@ return {
     vim.keymap.set("t", "<C-l>", "<C-\\><C-n><C-w>l", { desc = "Navigate right from terminal" })
     
     -- Navigate to terminal windows
-    vim.keymap.set("n", "<leader>tw", function()
+    vim.keymap.set("n", "<leader>rw", function()
       -- Find terminal windows and cycle through them
       local term_wins = {}
       for _, win in ipairs(vim.api.nvim_list_wins()) do
@@ -153,24 +178,7 @@ return {
     
     -- Toggle terminal insert/normal mode
     vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal insert mode" })
-    vim.keymap.set("n", "<leader>ti", function()
-      -- Enter insert mode in current terminal
-      vim.cmd("startinsert")
-    end, { desc = "Enter terminal insert mode" })
     
-    -- Quick terminal access
-    vim.keymap.set("n", "<leader>tp", function() 
-      python_term:toggle()
-      vim.cmd("startinsert")
-    end, { desc = "Toggle Python terminal and enter" })
-    vim.keymap.set("n", "<leader>tr", function() 
-      r_term:toggle()
-      vim.cmd("startinsert")
-    end, { desc = "Toggle R terminal and enter" })
-
-    -- These keymaps are now handled in core/keymaps.lua
-    -- Keeping them here for reference but they're overridden by the core keymaps
-
     -- Make terminals globally accessible
     _G.python_term = python_term
     _G.r_term = r_term
