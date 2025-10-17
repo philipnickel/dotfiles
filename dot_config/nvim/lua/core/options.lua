@@ -35,9 +35,20 @@ local function ensure_python_host_packages(host)
     host,
     "pynvim",
   }
-  local result = vim.system(args):wait()
-  if result and result.code == 0 then
-    ensured_hosts[host] = true
+  
+  -- Compatibility: vim.system() is only available in Neovim 0.10+
+  if vim.system then
+    local result = vim.system(args):wait()
+    if result and result.code == 0 then
+      ensured_hosts[host] = true
+    end
+  else
+    -- Fallback for older Neovim versions
+    local cmd = table.concat(args, " ")
+    local result = vim.fn.system(cmd)
+    if vim.v.shell_error == 0 then
+      ensured_hosts[host] = true
+    end
   end
 end
 

@@ -1,7 +1,9 @@
 
 Host *
     AddKeysToAgent yes
+{{- if eq .chezmoi.os "darwin" }}
     IdentityAgent ${SSH_AUTH_SOCK}
+{{- end }}
 
 Host github.com
     User git
