@@ -19,7 +19,9 @@ config.send_composed_key_when_right_alt_is_pressed = true
 -- Window appearance
 config.window_decorations = "RESIZE"
 config.window_background_opacity = 0.75
+{{- if eq .chezmoi.os "darwin" }}
 config.macos_window_background_blur = 60
+{{- end }}
 config.initial_rows = 50
 -- config.initial_cols = 200
 

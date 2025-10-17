@@ -1,0 +1,14 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# .zshrc - Multi-platform shell configuration
+# Managed by chezmoi - https://chezmoi.io
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Common configuration (all platforms)
+{{- include ".chezmoitemplates/shell/common.zsh" }}
+
+# Platform-specific configuration
+{{- if eq .chezmoi.os "darwin" }}
+{{-   include ".chezmoitemplates/shell/macos.zsh" }}
+{{- else if eq .chezmoi.os "linux" }}
+{{-   include ".chezmoitemplates/shell/linux-hpc.zsh" }}
+{{- end }}

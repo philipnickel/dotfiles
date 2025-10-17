@@ -1,0 +1,58 @@
+# Lazygit configuration
+# Cross-platform config stored in ~/.config/lazygit/
+
+gui:
+  # Use Nerd Fonts for better icons
+  showFileIcons: true
+  showIcons: true
+  nerdFontsVersion: "3"
+  # Theme - can be customized per platform if needed
+  theme:
+    activeBorderColor:
+      - green
+      - bold
+    inactiveBorderColor:
+      - white
+    selectedLineBgColor:
+      - blue
+  # Better commit display
+  showBranchCommitHash: true
+  commitHashLength: 8
+  # UI preferences
+  border: rounded
+  skipDiscardChangeWarning: false
+  skipStashWarning: false
+  expandFocusedSidePanel: false
+  # Show command log for learning
+  showCommandLog: true
+  commandLogSize: 8
+git:
+  paging:
+    colorArg: always
+    pager: delta --dark --paging=never
+  commit:
+    signOff: false
+    autoWrapCommitMessage: true
+    autoWrapWidth: 72
+  merging:
+    manualCommit: false
+    args: ""
+  # Log settings
+  log:
+    order: topo-order
+    showGraph: always
+    showWholeGraph: false
+  skipHookPrefix: WIP
+  autoFetch: true
+  autoRefresh: true
+  branchLogCmd: "git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium {{branchName}} --"
+  overrideGpg: false
+  disableForcePushing: false
+  parseEmoji: false
+  allBranchesLogCmds:
+    - git log --graph --all --color=always --abbrev-commit --decorate --date=relative  --pretty=medium
+
+# Platform-specific adjustments can be made in the future
+# macOS uses: ~/Library/Application Support/lazygit/config.yml
+# Linux uses: ~/.config/lazygit/config.yml (XDG standard)
+# This file is symlinked to the XDG location which works on both

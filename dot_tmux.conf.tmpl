@@ -1,7 +1,7 @@
 # Use zsh for all new windows/panes
 set -g default-shell /bin/zsh
 
-# Make it a login shell so ~/.zprofile runs (fixes PATH etc. on macOS)
+# Make it a login shell so ~/.zprofile runs (fixes PATH etc.)
 set -g default-command "/bin/zsh -l"
 
 unbind C-v
@@ -9,7 +9,11 @@ bind -T root C-v copy-mode
 set-window-option mode-keys vi
 bind-key -T copy-mode-vi v send -X begin-selection
 bind-key -T copy-mode-vi V send -X select-line
+{{- if eq .chezmoi.os "darwin" }}
+bind-key -T copy-mode-vi y send -X copy-pipe-and-cancel 'pbcopy'
+{{- else }}
 bind-key -T copy-mode-vi y send -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
+{{- end }}
 #set-environment -g PATH "/usr/local/bin:/bin:/usr/bin"
 
 # Set default shell to user's configured shell

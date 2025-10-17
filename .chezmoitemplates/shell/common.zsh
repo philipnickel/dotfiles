@@ -1,43 +1,22 @@
 # ─────────────────────────────────────────────────────────────────────────────
-# Powerlevel10k instant prompt (must stay near the top)
+# Common shell configuration (all platforms)
 # ─────────────────────────────────────────────────────────────────────────────
+
+# Powerlevel10k instant prompt (must stay near the top)
 source ~/.p10k.zsh
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Environment
 # ─────────────────────────────────────────────────────────────────────────────
 export EDITOR="nvim"
 
-
-# Base system PATH first so core tools are always available
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/usr/local/bin:${PATH:-}"
-
-# zsh path array: unique + prepend your dirs
+# User binaries
 typeset -aU path
 path=(
   "$HOME/.local/bin"
-  "$HOME/.npm-global/bin"
-  "$HOME/.bun/bin"
-  "/Applications/flutter/bin"
-  "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-  "/usr/local/opt/python/libexec/bin"
-  $path   # keep existing entries
+  $path
 )
 
-
-# macOS/Homebrew extras (avoid running brew on every shell if not installed)
-if command -v brew >/dev/null 2>&1; then
-  export DYLD_LIBRARY_PATH="$(brew --prefix)/lib:${DYLD_LIBRARY_PATH:-}"
-fi
-
-# DBus for macOS (guarded)
-if [[ "$(uname -s)" == "Darwin" ]] && command -v launchctl >/dev/null 2>&1; then
-  dbus_socket="$(launchctl print "gui/$(id -u)/org.freedesktop.dbus-session" 2>/dev/null | awk -F' => ' '/DBUS_LAUNCHD_SESSION_BUS_SOCKET/ {print $2; exit}')"
-  [[ -n "$dbus_socket" ]] && export DBUS_SESSION_BUS_ADDRESS="unix:path=$dbus_socket"
-fi
-
-# Lua rocks (keep once)
-export LUA_PATH="$HOME/.luarocks/share/lua/5.1/?.lua;$HOME/.luarocks/share/lua/5.1/?/init.lua;${LUA_PATH:-}"
-export LUA_CPATH="$HOME/.luarocks/lib/lua/5.1/?.so;${LUA_CPATH:-}"
 # ─────────────────────────────────────────────────────────────────────────────
 # Oh-My-Zsh
 # ─────────────────────────────────────────────────────────────────────────────
@@ -48,7 +27,7 @@ export DISABLE_UPDATE_PROMPT=true
 export DISABLE_AUTO_UPDATE=true
 export ZSH_DISABLE_COMPFIX=true
 
-# Theme (set once)
+# Theme
 ZSH_THEME="powerlevel10k/powerlevel10k"
 ZSH_CUSTOM="$ZSH/custom"
 
@@ -69,7 +48,6 @@ source "$ZSH/oh-my-zsh.sh"
 # Aliases
 # ─────────────────────────────────────────────────────────────────────────────
 alias lg='lazygit'
-alias pdf='zathura'
 alias lv='nvim'
 alias nv='nvim'
 alias dotfrg='cd "$HOME/.local/share/chezmoi" && rgf'
@@ -102,28 +80,18 @@ rgf() {
     --header "Type to search (rg). Enter: open in nvim. Ctrl-D: cancel."
 }
 
-
-# Bitwarden SSH Agent socket (cross-platform detection)
-if [[ -S "$HOME/.bitwarden-ssh-agent.sock" ]]; then
-  export SSH_AUTH_SOCK="$HOME/.bitwarden-ssh-agent.sock"
-elif [[ -S "$HOME/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock" ]]; then
-  export SSH_AUTH_SOCK="$HOME/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock"
-fi
-
-#export SSH_AUTH_SOCK=/Users/<user>/.bitwarden-ssh-agent.sock
-
 # ─────────────────────────────────────────────────────────────────────────────
 # Custom scripts
 # ─────────────────────────────────────────────────────────────────────────────
-# --- load personal command functions ---
+# Load personal command functions
 PN_FUNC_DIR="$HOME/.config/pn/functions"
-# source all *.zsh files if the dir exists (nullglob with (N))
 if [[ -d "$PN_FUNC_DIR" ]]; then
   for f in "$PN_FUNC_DIR"/*.zsh(N); do
     source "$f"
   done
 fi
-# optional helper to list your commands
+
+# Helper to list your commands
 pn-list() {
   emulate -L zsh
   print "Loaded commands:"
@@ -131,11 +99,8 @@ pn-list() {
     print "  ${f%.zsh}"
   done
 }
-# --- end loader ---
-
-
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Shell completions (uv)
+# Shell completions
 # ─────────────────────────────────────────────────────────────────────────────
 command -v uv >/dev/null 2>&1 && eval "$(uv generate-shell-completion zsh)"
