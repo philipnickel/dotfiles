@@ -1,8 +1,13 @@
 -- Render Markdown plugin
 -- Renders markdown in neovim with treesitter
+-- Requires Neovim 0.10+ (uses vim.wins API)
 
 return {
   'MeanderingProgrammer/render-markdown.nvim',
+  -- Only load on Neovim 0.10+ which has the required APIs
+  enabled = function()
+    return vim.fn.has('nvim-0.10') == 1
+  end,
   dependencies = { 
     'nvim-treesitter/nvim-treesitter',
     'echasnovski/mini.icons',

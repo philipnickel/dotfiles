@@ -7,7 +7,11 @@ Host *
 
 Host github.com
     User git
+{{- if eq .chezmoi.os "darwin" }}
     ForwardAgent yes
+{{- else }}
+    IdentityFile ~/.ssh/id_github
+{{- end }}
 
 Host hpc_dtu
     HostName login.hpc.dtu.dk
