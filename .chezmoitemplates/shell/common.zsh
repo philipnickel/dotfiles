@@ -47,38 +47,30 @@ source "$ZSH/oh-my-zsh.sh"
 # ─────────────────────────────────────────────────────────────────────────────
 # Aliases
 # ─────────────────────────────────────────────────────────────────────────────
-alias lg='lazygit'
 alias lv='nvim'
 alias nv='nvim'
 alias dotfrg='cd "$HOME/.local/share/chezmoi" && rgf'
+
+# lazygit with directory change support
+lg()
+{
+    export LAZYGIT_NEW_DIR_FILE=~/.lazygit/newdir
+
+    lazygit "$@"
+
+    if [ -f $LAZYGIT_NEW_DIR_FILE ]; then
+            cd "$(cat $LAZYGIT_NEW_DIR_FILE)"
+            rm -f $LAZYGIT_NEW_DIR_FILE > /dev/null
+    fi
+}
+
+
 
 # zoxide
 command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh)"
 
 # fzf
 [[ -f "$HOME/.fzf.zsh" ]] && source "$HOME/.fzf.zsh"
-
-# ─────────────────────────────────────────────────────────────────────────────
-# ripgrep + fzf helper
-# ─────────────────────────────────────────────────────────────────────────────
-rgf() {
-  local preview="cat"
-  command -v bat >/dev/null 2>&1 && preview="bat --color=always"
-
-  local -a fzf_cmd=(fzf)
-  if command -v fzf-tmux >/dev/null 2>&1 && [[ -n "$TMUX" ]]; then
-    fzf_cmd=(fzf-tmux -p)
-  fi
-
-  "${fzf_cmd[@]}" \
-    --bind "change:reload(rg --column --line-number --no-heading --color=always --smart-case --fixed-strings {q} || true)" \
-    --ansi \
-    --preview "$preview {1} --highlight-line {2}" \
-    --delimiter : \
-    --nth 3.. \
-    --bind 'enter:execute(nvim +{2} {1})' \
-    --header "Type to search (rg). Enter: open in nvim. Ctrl-D: cancel."
-}
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Custom scripts

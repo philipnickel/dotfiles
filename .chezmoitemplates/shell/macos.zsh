@@ -36,5 +36,3 @@ elif [[ -S "$HOME/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-a
   export SSH_AUTH_SOCK="$HOME/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock"
 fi
 
-# macOS-specific aliases
-alias pdf='zathura'
