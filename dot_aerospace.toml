@@ -7,7 +7,11 @@
 after-startup-command = ['exec-and-forget sketchybar']
 
 # Notify Sketchybar about workspace updates
-exec-on-workspace-change = ['/bin/bash', '-c', 'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE']
+exec-on-workspace-change = [
+  '/bin/bash',
+  '-c',
+  'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE',
+]
 # Start AeroSpace at login
 start-at-login = true
 
@@ -39,17 +43,17 @@ automatically-unhide-macos-hidden-apps = true
 # Possible values: (qwerty|dvorak|colemak)
 # See https://nikitabobko.github.io/AeroSpace/guide#key-mapping
 [key-mapping]
-    preset = 'qwerty'
+preset = 'qwerty'
 
 # Gaps between windows (inner-*) and between monitor edges (outer-*).
 # Matches the padding/window_gap values from the yabai config
 [gaps]
-    inner.horizontal = 2
-    inner.vertical =   2
-    outer.left =       20
-    outer.bottom =     20
-    outer.top =        10
-    outer.right =      20
+inner.horizontal = 2
+inner.vertical = 2
+outer.left = 20
+outer.bottom = 20
+outer.top = 10
+outer.right = 20
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -57,70 +61,71 @@ automatically-unhide-macos-hidden-apps = true
 # Fallback value (if you omit the key): mode.main.binding = {}
 [mode.main.binding]
 
-    # Hyper-style launcher bindings
-   # Toggle root layout type between tiles ↔ accordion
-    cmd-alt-ctrl-enter= 'layout tiles accordion'
+# Hyper-style launcher bindings
+# Toggle root layout type between tiles ↔ accordion
+cmd-alt-ctrl-enter = 'layout tiles accordion'
 
-    # Focus bindings (mirrors skhd right-command navigation)
-    cmd-alt-ctrl-h = 'focus left'
-    cmd-alt-ctrl-j = 'focus down'
-    cmd-alt-ctrl-k = 'focus up'
-    cmd-alt-ctrl-l = 'focus right'
-    # Directional resize bindings (smart keeps orientation awareness)
-    cmd-alt-ctrl-shift-h = 'resize smart -25'
-    cmd-alt-ctrl-shift-l = 'resize smart +25'
-    cmd-alt-ctrl-shift-k = 'resize smart-opposite -25'
-    cmd-alt-ctrl-shift-j = 'resize smart-opposite +25'
+# Focus bindings (mirrors skhd right-command navigation)
+cmd-alt-ctrl-h = 'focus left'
+cmd-alt-ctrl-j = 'focus down'
+cmd-alt-ctrl-k = 'focus up'
+cmd-alt-ctrl-l = 'focus right'
+# Directional resize bindings (smart keeps orientation awareness)
+cmd-alt-ctrl-shift-h = 'resize smart -25'
+cmd-alt-ctrl-shift-l = 'resize smart +25'
+cmd-alt-ctrl-shift-k = 'resize smart-opposite -25'
+cmd-alt-ctrl-shift-j = 'resize smart-opposite +25'
 
-    shift-ctrl-h = ['move left', 'mode main']
-    shift-ctrl-j = ['move down', 'mode main']
-    shift-ctrl-k = ['move up', 'mode main']
-    shift-ctrl-l = ['move right', 'mode main']
+shift-ctrl-h = ['move left', 'mode main']
+shift-ctrl-j = ['move down', 'mode main']
+shift-ctrl-k = ['move up', 'mode main']
+shift-ctrl-l = ['move right', 'mode main']
 
-    # Fullscreen toggle
+# Fullscreen toggle
 #cmd-alt-ctrl-enter = 'fullscreen'
 
-    # Workspace navigation (mirrors f18 + number)
-    cmd-alt-ctrl-1 = 'workspace 1'
-    cmd-alt-ctrl-2 = 'workspace 2'
-    cmd-alt-ctrl-3 = 'workspace 3'
-    cmd-alt-ctrl-4 = 'workspace 4'
-    cmd-alt-ctrl-5 = 'workspace 5'
-    cmd-alt-ctrl-6 = 'workspace 6'
-    cmd-alt-ctrl-7 = 'workspace 7'
-    cmd-alt-ctrl-8 = 'workspace 8'
-    cmd-alt-ctrl-n = 'workspace-back-and-forth'
+# Workspace navigation (mirrors f18 + number)
+cmd-alt-ctrl-1 = 'workspace 1'
+cmd-alt-ctrl-2 = 'workspace 2'
+cmd-alt-ctrl-3 = 'workspace 3'
+cmd-alt-ctrl-4 = 'workspace 4'
+cmd-alt-ctrl-5 = 'workspace 5'
+cmd-alt-ctrl-6 = 'workspace 6'
+cmd-alt-ctrl-7 = 'workspace 7'
+cmd-alt-ctrl-8 = 'workspace 8'
+cmd-alt-ctrl-n = 'workspace-back-and-forth'
 
 
-    # Move active window then follow focus (mirrors f18 + shift + number)
-    cmd-alt-ctrl-shift-1 = ['move-node-to-workspace 1', 'workspace 1']
-    cmd-alt-ctrl-shift-2 = ['move-node-to-workspace 2', 'workspace 2']
-    cmd-alt-ctrl-shift-3 = ['move-node-to-workspace 3', 'workspace 3']
-    cmd-alt-ctrl-shift-4 = ['move-node-to-workspace 4', 'workspace 4']
-    cmd-alt-ctrl-shift-5 = ['move-node-to-workspace 5', 'workspace 5']
-    cmd-alt-ctrl-shift-6 = ['move-node-to-workspace 6', 'workspace 6']
-    cmd-alt-ctrl-shift-7 = ['move-node-to-workspace 7', 'workspace 7']
-    cmd-alt-ctrl-shift-8 = ['move-node-to-workspace 8', 'workspace 8']
+# Move active window then follow focus (mirrors f18 + shift + number)
+cmd-alt-ctrl-shift-1 = ['move-node-to-workspace 1', 'workspace 1']
+cmd-alt-ctrl-shift-2 = ['move-node-to-workspace 2', 'workspace 2']
+cmd-alt-ctrl-shift-3 = ['move-node-to-workspace 3', 'workspace 3']
+cmd-alt-ctrl-shift-4 = ['move-node-to-workspace 4', 'workspace 4']
+cmd-alt-ctrl-shift-5 = ['move-node-to-workspace 5', 'workspace 5']
+cmd-alt-ctrl-shift-6 = ['move-node-to-workspace 6', 'workspace 6']
+cmd-alt-ctrl-shift-7 = ['move-node-to-workspace 7', 'workspace 7']
+cmd-alt-ctrl-shift-8 = ['move-node-to-workspace 8', 'workspace 8']
 
-    # Quick utility bindings
-    cmd-alt-ctrl-y = 'reload-config'
-    cmd-alt-ctrl-f5 = 'mode service'
+# Quick utility bindings
+cmd-alt-ctrl-y = 'reload-config'
+cmd-alt-ctrl-f5 = 'mode service'
 
 # 'service' binding mode declaration.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 [mode.service.binding]
-    esc = ['reload-config', 'mode main']
-    r = ['flatten-workspace-tree', 'mode main'] # reset layout
-    f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
-    backspace = ['close-all-windows-but-current', 'mode main']
-    t = ['layout tiles', 'mode main']
-    a = ['layout accordion', 'mode main']
-    
+esc = ['reload-config', 'mode main']
+r = ['flatten-workspace-tree', 'mode main'] # reset layout
+f = [
+  'layout floating tiling',
+  'mode main',
+] # Toggle between floating and tiling layout
+backspace = ['close-all-windows-but-current', 'mode main']
+t = ['layout tiles', 'mode main']
+a = ['layout accordion', 'mode main']
+
 # (Optional) explicit setters if you ever want direct jumps
 
-    cmd-alt-ctrl-h = ['join-with left', 'mode main']
-    cmd-alt-ctrl-j = ['join-with down', 'mode main']
-    cmd-alt-ctrl-k = ['join-with up', 'mode main']
-    cmd-alt-ctrl-l = ['join-with right', 'mode main']
-
-
+cmd-alt-ctrl-h = ['join-with left', 'mode main']
+cmd-alt-ctrl-j = ['join-with down', 'mode main']
+cmd-alt-ctrl-k = ['join-with up', 'mode main']
+cmd-alt-ctrl-l = ['join-with right', 'mode main']
