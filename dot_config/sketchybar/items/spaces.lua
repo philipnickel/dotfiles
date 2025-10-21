@@ -9,6 +9,16 @@ sbar.add("event", "aerospace_monitor_change")
 local workspaces = {}
 local workspace_brackets = {}
 local workspace_ids = {}
+local module = {}
+local front_app_registered = false
+
+local function move_front_app_to_end()
+  if not front_app_registered then return end
+  local last_id = workspace_ids[#workspace_ids]
+  if not last_id then return end
+  if not workspaces[last_id] then return end
+  sbar.exec("sketchybar --move front_app after space.padding." .. last_id)
+end
 
 local function trim(value)
   if not value then return "" end
@@ -152,6 +162,7 @@ local function ensure_workspace_item(id)
     position = "left",
     width = settings.group_paddings,
   })
+  move_front_app_to_end()
 
   item:subscribe("mouse.clicked", function(env)
     if env.BUTTON ~= "left" then
@@ -173,6 +184,7 @@ local function bootstrap_workspaces()
     end
     update_all_workspace_icons()
     refresh_focus()
+    move_front_app_to_end()
   end)
 end
 
@@ -192,24 +204,29 @@ workspace_observer:subscribe("aerospace_workspace_change", function(env)
     apply_focus_state(focused)
   end
   update_all_workspace_icons()
+  move_front_app_to_end()
 end)
 
 workspace_observer:subscribe("aerospace_monitor_change", function(_)
   update_all_workspace_icons()
   refresh_focus()
+  move_front_app_to_end()
 end)
 
 workspace_observer:subscribe("front_app_switched", function(_)
   update_all_workspace_icons()
+  move_front_app_to_end()
 end)
 
 workspace_observer:subscribe("space_windows_change", function(_)
   update_all_workspace_icons()
+  move_front_app_to_end()
 end)
 
 workspace_observer:subscribe("system_woke", function(_)
   update_all_workspace_icons()
   refresh_focus()
+  move_front_app_to_end()
 end)
 
 local spaces_indicator = sbar.add("item", {
@@ -270,3 +287,14 @@ end)
 spaces_indicator:subscribe("mouse.clicked", function(env)
   sbar.trigger("swap_menus_and_spaces")
 end)
+
+function module.register_front_app()
+  front_app_registered = true
+  move_front_app_to_end()
+end
+
+function module.ensure_front_app_position()
+  move_front_app_to_end()
+end
+
+return module

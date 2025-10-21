@@ -1,5 +1,6 @@
 local colors = require("colors")
 local settings = require("settings")
+local spaces = require("items.spaces")
 
 local front_app = sbar.add("item", "front_app", {
   display = "active",
@@ -12,6 +13,10 @@ local front_app = sbar.add("item", "front_app", {
   },
   updates = true,
 })
+
+if spaces and spaces.register_front_app then
+  spaces.register_front_app()
+end
 
 front_app:subscribe("front_app_switched", function(env)
   front_app:set({ label = { string = env.INFO } })

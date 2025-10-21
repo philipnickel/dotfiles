@@ -1,12 +1,5 @@
-# Ignore macOS-only applications on non-macOS systems
-{{ if ne .chezmoi.os "darwin" }}
-# macOS-specific GUI applications
-.config/sketchybar/
-.config/borders/
-.aerospace.toml
-{{ end }}
+# neovim 
 
-# Ignore Linux-only configurations on non-Linux systems
-{{ if ne .chezmoi.os "linux" }}
-# Linux-specific configs (if any)
-{{ end }}
+.config/nvim/lazy-lock.json
+
+lazyvim.json
