@@ -88,14 +88,13 @@ if [[ -d "$PN_FUNC_DIR" ]]; then
   done
 fi
 
-# Helper to list your commands
-pn-list() {
-  emulate -L zsh
-  print "Loaded commands:"
-  for f in "$PN_FUNC_DIR"/*.zsh(N:t); do
-    print "  ${f%.zsh}"
-  done
-}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Custom commands 
+# ─────────────────────────────────────────────────────────────────────────────
+alias ca='clear && printf "\033[3J\033c\033[H\033[2J"'
+
+alias sc='source ~/.zshrc && echo "Sourced ~/.zshrc"'
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Shell completions
@@ -140,5 +139,3 @@ if [[ -S "$HOME/.bitwarden-ssh-agent.sock" ]]; then
 elif [[ -S "$HOME/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock" ]]; then
   export SSH_AUTH_SOCK="$HOME/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock"
 fi
-
-

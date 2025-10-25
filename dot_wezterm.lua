@@ -2,6 +2,8 @@ local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 local act = wezterm.action
 
+
+SHELL = "/opt/homebrew/bin/fish"
 config.color_scheme = "Catppuccin Frappe"
 
 -- Font
@@ -12,8 +14,8 @@ config.font_size = 14.0
 config.enable_kitty_graphics = true
 
 -- Let Option produce native characters (needed for DK layout brackets inside tmux)
-config.send_composed_key_when_left_alt_is_pressed = false
-config.send_composed_key_when_right_alt_is_pressed = true
+config.send_composed_key_when_left_alt_is_pressed = true
+config.send_composed_key_when_right_alt_is_pressed = false
 -- Window appearance
 config.window_decorations = "RESIZE"
 config.window_background_opacity = 0.75
