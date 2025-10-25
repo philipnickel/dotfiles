@@ -1,84 +1,104 @@
--- VimTeX configuration for LaTeX editing
-
+-- lua/plugins/vimtex.lua
 return {
-  "lervag/vimtex",
-  version = "v2.15", -- Pin to last release supporting older Vim/Neovim
-  lazy = false, -- Load immediately for LaTeX snippets (required for inverse search)
-  init = function()
-    -- VimTeX configuration with OpusReader (rebranded Sioyek)
-    vim.g.vimtex_view_method = "sioyek"
-    vim.g.vimtex_view_sioyek_exe = "opusreader"
+  {
+    "lervag/vimtex",
+    -- NOTE: inverse search breaks when lazy-loaded, so load immediately
+    lazy = false,
+    -- version = "v2.15", -- uncomment ONLY if you specifically need this older release
+    init = function()
+      -- --- Viewer: OpusReader (Sioyek) ---
+      vim.g.vimtex_view_method = "sioyek"
+      vim.g.vimtex_view_sioyek_exe = "opusreader"
 
-    -- OpusReader configuration for synctex
-    vim.g.vimtex_view_sioyek_options = '--new-window --inverse-search "nvim +%2 \\"%1\\""'
+      -- Forward search options when opening Sioyek/OpusReader
+      -- (new window + inverse-search command that calls Neovim)
+      --vim.g.vimtex_view_sioyek_options =
+      --  [[--new-window --inverse-search "nvim +%2 \"%1\""]]
 
-    -- Configure inverse search for OpusReader
-    vim.g.vimtex_view_sioyek_inverse_search = 'nvim +%2 "%1"'
+      -- Inverse search command used by Sioyek -> Neovim
+      -- Keep this in sync with your Sioyek/OpusReader config if you set it there.
+      --vim.g.vimtex_view_sioyek_inverse_search = [[nvim +%2 "%1"]]
 
-    -- Enable VimTeX features
-    vim.g.vimtex_quickfix_mode = 1
-    vim.g.vimtex_compiler_latexmk = {
-      build_dir = "build",
-      options = {
-        "-pdf",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "-synctex=1",
-        "-verbose",
-      },
-    }
-    -- Enable folding
-    vim.g.vimtex_fold_enabled = 0
-    vim.g.vimtex_fold_manual = 1
+      -- --- Compiler ---
+--      vim.g.vimtex_quickfix_mode = 0
+ --     vim.g.vimtex_compiler_latexmk = {
+--        build_dir = "build",
+ --       options = {
+--          "-pdf",
+--          "-interaction=nonstopmode",
+ --         "-file-line-error",
+--        "-synctex=1",
+ --         "-verbose",
+  --      },
+ --     }
 
-    -- Enable conceal for better readability
-    vim.g.vimtex_syntax_conceal = {
-      accents = 1,
-      ligatures = 1,
-      cites = 1,
-      greek = 1,
-      math_bounds = 1,
-      math_delimiters = 1,
-      math_fracs = 1,
-      math_super_sub = 1,
-      math_symbols = 1,
-      sections = 1,
-      spacing = 1,
-      styles = 1,
-    }
+      vim.g.vimtex_quickfix_mode = 0
 
-    -- Use VimTeX syntax highlighting instead of Treesitter
-    vim.g.vimtex_syntax_enabled = 1
-    vim.g.vimtex_syntax_conceal_disable = 0
+      vim.g.vimtex_compiler_latexmk = {
+        build_dir = "build",
+        options = {
+          "-pdf",
+          "-file-line-error",
+          "-interaction=nonstopmode",
+          "-synctex=1",
+          "-use-make",
+          "-quiet",
+        },
+      }
 
-    -- Enable spell checking for LaTeX files
-    vim.g.vimtex_enabled = 1
 
-    -- Auto-enable spell checking for LaTeX files
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = "tex",
-      callback = function()
-        vim.opt_local.spell = true
-        vim.opt_local.spelllang = "en_us"
-      end,
-    })
+      -- --- Folding / Syntax / Conceal ---
+      vim.g.vimtex_fold_enabled = 1
+      vim.g.vimtex_fold_manual = 1
 
-    -- Ctrl+L to correct spelling errors
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = "tex",
-      callback = function()
-        -- Normal mode: show spelling suggestions for word under cursor
-        vim.keymap.set("n", "<C-c>", "z=", { buffer = true, desc = "Correct spelling" })
+      vim.g.vimtex_syntax_enabled = 1
+      vim.g.vimtex_syntax_conceal_disable = 0
+      vim.g.vimtex_syntax_conceal = {
+        accents = 1,
+        ligatures = 1,
+        cites = 1,
+        greek = 1,
+        math_bounds = 1,
+        math_delimiters = 1,
+        math_fracs = 1,
+        math_super_sub = 1,
+        math_symbols = 1,
+        sections = 1,
+        spacing = 0,
+        styles = 1,
+      }
 
-        -- Insert mode: automatically correct last spelling mistake
-        -- This implements: <c-g>u<Esc>[s1z=`]a<c-g>u
-        vim.keymap.set(
-          "i",
-          "<C-c>",
-          "<c-g>u<Esc>[s1z=`]a<c-g>u",
-          { buffer = true, desc = "Correct last spelling mistake" }
-        )
-      end,
-    })
-  end,
+      -- Disable VimTeX's K (conflicts with LSP hover)
+      vim.g.vimtex_mappings_disable = { n = { "K" } }
+
+      -- Prefer pplatex quickfix parser if available (cleaner logs)
+      vim.g.vimtex_quickfix_method =
+        (vim.fn.executable("pplatex") == 1) and "pplatex" or "latexlog"
+
+      -- --- FileType autocmds for TeX ---
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "tex",
+        callback = function()
+          vim.opt_local.spell = true
+          vim.opt_local.spelllang = "en_us"
+
+          -- Spelling correction helpers (Normal & Insert)
+          vim.keymap.set("n", "<C-c>", "z=", { buffer = true, desc = "Correct spelling" })
+          vim.keymap.set(
+            "i",
+            "<C-c>",
+            '<c-g>u<Esc>[s1z=`]a<c-g>u',
+            { buffer = true, desc = "Correct last spelling mistake" }
+          )
+        end,
+      })
+    end,
+    keys = {
+      -- Which-key group label under <localleader>l (LazyVim sets <localleader> = "\\")
+      { "<localleader>l", "", desc = "+vimtex", ft = "tex" },
+      -- Add your favorite vimtex mappings here if you want explicit labels, e.g.:
+      -- { "<localleader>ll", "<cmd>VimtexCompile<cr>", desc = "Compile", ft = "tex" },
+      -- { "<localleader>lv", "<cmd>VimtexView<cr>",    desc = "View (OpusReader)", ft = "tex" },
+    },
+  },
 }
