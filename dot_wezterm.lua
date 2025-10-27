@@ -18,7 +18,7 @@ config.send_composed_key_when_left_alt_is_pressed = true
 config.send_composed_key_when_right_alt_is_pressed = false
 -- Window appearance
 config.window_decorations = "RESIZE"
-config.window_background_opacity = 0.75
+config.window_background_opacity = 0.40
 config.macos_window_background_blur = 60
 config.initial_rows = 50
 
