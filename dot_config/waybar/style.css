@@ -38,16 +38,13 @@ tooltip label {
   font-size: 15px;
 }
 
-/* Three floating containers (GTK3-safe: no backdrop-filter, no box-shadow) */
+/* Three floating containers - transparent background, only text visible */
 .modules-left,
 .modules-center,
 .modules-right {
-  background-color: alpha(@background, 0.85);
+  background-color: transparent;
   border-radius: 12px;
   padding: 0px 10px;
-
-  /* Faux depth using a subtle outline */
-  outline: 1px solid alpha(black, 0.12);
 
   /* Space from screen edges and between chips */
   margin: 6px 10px;
