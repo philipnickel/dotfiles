@@ -2,8 +2,11 @@ local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 local act = wezterm.action
 
-
+{{- if eq .chezmoi.os "darwin" }}
 SHELL = "/opt/homebrew/bin/fish"
+{{- else if eq .chezmoi.os "linux" }}
+SHELL = "/usr/bin/fish"
+{{- end }}
 config.color_scheme = "Catppuccin Frappe"
 
 -- Font
@@ -19,7 +22,9 @@ config.send_composed_key_when_right_alt_is_pressed = false
 -- Window appearance
 config.window_decorations = "RESIZE"
 config.window_background_opacity = 0.70
+{{- if eq .chezmoi.os "darwin" }}
 config.macos_window_background_blur = 60
+{{- end }}
 config.initial_rows = 50
 
 -- Remove padding around terminal content

@@ -1,6 +1,10 @@
-# neovim 
+# neovim
 
 .config/nvim/lazy-lock.json
 
 .config/nvim/lazyvim.json
 
+# macOS-only files (exclude on Linux)
+{{- if ne .chezmoi.os "darwin" }}
+.aerospace.toml
+{{- end }}

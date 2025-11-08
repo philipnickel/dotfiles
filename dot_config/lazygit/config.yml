@@ -1,0 +1,7 @@
+# When not in a git repository, open the most recent repo instead of prompting
+# Options: 'prompt' (default), 'quit', 'create', 'skip'
+notARepository: 'skip'
+
+gui:
+  # Show command log
+  showCommandLog: false

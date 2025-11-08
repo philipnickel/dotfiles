@@ -7,7 +7,11 @@ bind -T root C-v copy-mode
 set-window-option mode-keys vi
 bind-key -T copy-mode-vi v send -X begin-selection
 bind-key -T copy-mode-vi V send -X select-line
+{{- if eq .chezmoi.os "darwin" }}
 bind-key -T copy-mode-vi y send -X copy-pipe-and-cancel 'pbcopy'
+{{- else if eq .chezmoi.os "linux" }}
+bind-key -T copy-mode-vi y send -X copy-pipe-and-cancel 'xclip -selection clipboard'
+{{- end }}
 
 
 # keybindings for handling panes 
@@ -106,7 +110,8 @@ set -g @plugin 'tmux-plugins/tmux-yank'
 # Pick a softer palette.
 set -g @catppuccin_flavor 'frappe'
 
-run ~/.config/tmux/plugins/catppuccin/tmux/catppuccin.tmux
+# Only run catppuccin if it's installed (plugin loaded via TPM)
+# run ~/.config/tmux/plugins/catppuccin/tmux/catppuccin.tmux
 
 # Make the status line more pleasant.
 # set -g status-right ""
@@ -157,5 +162,8 @@ run '~/.tmux/plugins/tpm/tpm'
 
 #run-shell ~/clone/path/continuum.tmux
 
-set -g default-command "reattach-to-user-namespace -l $SHELL ; s"
+{{- if eq .chezmoi.os "darwin" }}
+# macOS: Use reattach-to-user-namespace for proper clipboard integration
+set -g default-command "reattach-to-user-namespace -l $SHELL"
+{{- end }}
 
