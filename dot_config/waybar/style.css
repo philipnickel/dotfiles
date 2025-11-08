@@ -115,6 +115,17 @@ tooltip label {
   padding-left: 12px; /* inner breathing room */
 }
 
+#custom-arch-logo {
+  padding-right: 8px;
+  padding-left: 4px;
+  min-width: 16px;
+  min-height: 16px;
+  background-image: url("/home/philipnickel/.config/waybar/icons/arch-logo-white.svg");
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 #custom-omarchy {
   padding-right: 4px; /* keep glyph from touching right edge of the chip */
   padding-left: 2px;  /* slight left pad */

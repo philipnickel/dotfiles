@@ -2,7 +2,7 @@
   "reload_style_on_change": true,
   "layer": "top",
   "position": "top",
-  "output": ["DP-2"],
+  "output": ["eDP-1"],
   "margin-top": 2,
   "margin-bottom": -8,
   "margin-left": 0,
@@ -10,7 +10,7 @@
   "spacing": 5,
   "height": 34,
 
-  "modules-left": ["custom/omarchy", "hyprland/workspaces", "mpris"],
+  "modules-left": ["custom/arch-logo", "custom/omarchy", "hyprland/workspaces", "mpris"],
   "modules-center": ["hyprland/window"],
   "modules-right": [
     "custom/screenrecording-indicator",
@@ -27,25 +27,12 @@
   "custom/weather": {
     "exec": "~/.config/waybar/weather.py waybar",
     "restart-interval": 900,
-    "return-type": "json",
+    "return-type": "json"
   },
 
   "hyprland/workspaces": {
     "on-click": "activate",
-    "format": "{icon}",
-    "format-icons": {
-      "default": "",
-      "1": "󰖟",
-      "2": "",
-      "3": "󰎞",
-      "4": "󰑈",
-      "5": "󰆟",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": ""
-    },
-
+    "format": "{id}",
     "persistent-workspaces": {
       "1": [],
       "2": [],
@@ -61,15 +48,15 @@
     "format-stopped": "",
     "player": "Lollypop",
     "player-icons": {
-      "default": "",
-      "firefox": "",
-      "Firefox": "",
+      "default": "",
+      "firefox": "",
+      "Firefox": "",
       "Lollypop": "󰝚",
       "mpv": "󰍺",
       "vlc": "󰕼",
       "VLC": "󰕼",
-      "Spotify": "",
-      "spotify": ""
+      "Spotify": "",
+      "spotify": ""
     },
     "escape": false,
     "max-length": 40,
@@ -96,15 +83,20 @@
     "on-click-right": "hyprctl dispatch fullscreen 0"
   },
 
+  "custom/arch-logo": {
+    "format": " ",
+    "tooltip": false
+  },
+
   "custom/omarchy": {
-    "format": "<span font='JetBrainsMono Nerd Font 18'>󰣇</span>",
+    "format": "<span font='JetBrainsMono Nerd Font 18'></span>",
     "on-click": "omarchy-menu",
     "on-click-right": "omarchy-launch-terminal",
     "tooltip-format": "Omarchy Menu\n\nSuper + Alt + Space"
   },
 
   "custom/update": {
-    "format": "",
+    "format": "",
     "exec": "omarchy-update-available",
     "on-click": "omarchy-launch-floating-terminal-with-presentation omarchy-update",
     "tooltip-format": "Omarchy update available",
@@ -142,19 +134,10 @@
     "format": "{capacity}% {icon}",
     "format-discharging": "{capacity}% {icon}",
     "format-charging": "{capacity}% {icon}",
-    "format-plugged": " {capacity}%",
+    "format-plugged": " {capacity}%",
     "format-icons": {
       "charging": ["󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"],
       "default": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
-    },
-    "format-full": "󰂅 {capacity}%",
-    "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%",
-    "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
-    "interval": 5,
-    "on-click": "omarchy-menu power",
-    "states": {
-      "warning": 20,
-      "critical": 10
     },
     "format-full": "󰂅",
     "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%",
@@ -168,9 +151,9 @@
   },
 
   "bluetooth": {
-    "format": "",
+    "format": "",
     "format-disabled": "󰂲",
-    "format-connected": "",
+    "format-connected": "",
     "tooltip-format": "Devices connected: {num_connections}",
     "on-click": "blueberry"
   },
@@ -181,9 +164,9 @@
     "on-click-right": "pamixer -t",
     "tooltip-format": "Playing at {volume}%",
     "scroll-step": 5,
-    "format-muted": "",
+    "format-muted": "",
     "format-icons": {
-      "default": ["", "", ""]
+      "default": ["", "", ""]
     }
   },
 
@@ -197,7 +180,7 @@
   },
 
   "custom/expand-icon": {
-    "format": " ",
+    "format": " ",
     "tooltip": false
   },
 
@@ -211,6 +194,5 @@
   "tray": {
     "icon-size": 12,
     "spacing": 12
-  },
-
+  }
 }
