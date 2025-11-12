@@ -28,3 +28,5 @@ lg() {
 }
 
 alias s='source ~/.bashrc && echo "Reloaded .bashrc"'
+
+alias ld='lazydocker'
