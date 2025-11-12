@@ -48,7 +48,7 @@ return {
           icon = " ",
           key = "n",
           height = 5,
-          cmd = "gh notify -s -a -n5",
+          cmd = "gh notify -s -a -n5 2>/dev/null || echo 'Not available'",
           action = function()
             vim.ui.open("https://github.com/notifications")
           end,
@@ -59,7 +59,7 @@ return {
           icon = " ",
           key = "i",
           height = 7,
-          cmd = "gh issue list -L 3",
+          cmd = "gh issue list -L 3 2>/dev/null || echo 'No issues or not a GitHub repo'",
           action = function()
             vim.fn.jobstart("gh issue list --web", { detach = true })
           end,
@@ -70,7 +70,7 @@ return {
           icon = " ",
           key = "P",
           height = 7,
-          cmd = "gh pr list -L 3",
+          cmd = "gh pr list -L 3 2>/dev/null || echo 'No PRs or not a GitHub repo'",
           action = function()
             vim.fn.jobstart("gh pr list --web", { detach = true })
           end,
