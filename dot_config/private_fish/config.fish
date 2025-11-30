@@ -4,6 +4,11 @@
 if status is-interactive
     # Silence greeting
     set -g fish_greeting
+
+    # System info on new shell
+    if type -q fastfetch
+        fastfetch
+    end
 end
 
 # ─────────────────────────────────────────────────────────────────────────────
