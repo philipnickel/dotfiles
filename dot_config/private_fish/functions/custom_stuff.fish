@@ -38,6 +38,12 @@ function zf --description="fuzzy find with zoxide"
 end
 
 function zot --description="Cd to Zotero library"
-  cd "/Users/philipnickel/Library/Mobile Documents/com~apple~CloudDocs/zotero/storage"
+  switch (uname)
+    case Darwin
+      cd "$HOME/Library/Mobile Documents/com~apple~CloudDocs/zotero/storage"
+    case Linux
+      # Adjust this path to your Linux Zotero storage location
+      cd "$HOME/Zotero/storage"
+  end
   fd
 end
