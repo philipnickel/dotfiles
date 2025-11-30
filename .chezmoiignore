@@ -1,8 +1,10 @@
 # neovim
-
 .config/nvim/lazy-lock.json
-
 .config/nvim/lazyvim.json
+
+# fish - only manage config.fish and fish_plugins
+# fish_variables is auto-modified by fish at runtime
+.config/fish/fish_variables
 
 # macOS-only files (exclude on Linux)
 {{- if ne .chezmoi.os "darwin" }}

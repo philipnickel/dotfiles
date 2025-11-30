@@ -1,3 +1,6 @@
+[user]
+	name = Philip Korsager Nickel
+	email = philipnickel@outlook.dk
 [pull]
 	rebase = true
 [gitflow "branch"]
