@@ -3,7 +3,7 @@
 #set -g default-shell /opt/homebrew/bin/fish
 
 unbind C-v
-bind -T root C-v copy-mode
+bind -T root C-h copy-mode
 set-window-option mode-keys vi
 bind-key -T copy-mode-vi v send -X begin-selection
 bind-key -T copy-mode-vi V send -X select-line
@@ -58,10 +58,9 @@ set -g @plugin 'christoomey/vim-tmux-navigator'
 set -g @plugin 'vaaleyard/tmux-dotbar'
 
 unbind C-b
-# macOS terminals do not pass the Command modifier through to tmux, so Raycast's
-# hyper chord (ctrl+option+command+F) arrives as ctrl+F.  Keep both ctrl+F and
-# ctrl+option+F as prefixes so the hyper chord works while still catching the
-# raw ctrl+F sequence if needed.
+# Hyper+F (Capslock+F with caps:hyper in Hyprland, or Raycast's hyper chord on macOS)
+# arrives as Ctrl+F in tmux. Setting C-f as prefix allows both the hyper chord and
+# raw Ctrl+F to work as the tmux prefix.
 set-option -g prefix C-f
 bind-key C-f send-prefix
 
@@ -90,8 +89,8 @@ set -g mouse on
 
 # Extra
 set -g @plugin 'sainnhe/tmux-fzf'
-TMUX_FZF_MENU_POPUP=1
-TMUX_FZF_LAUNCH_KEY="f"
+set -g @tmux-fzf-popup 1
+set -g @tmux-fzf-launch-key "F"  # Use uppercase F to avoid conflict with prefix
 
 
 set -g @plugin 'tmux-plugins/tmux-prefix-highlight'
