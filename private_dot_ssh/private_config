@@ -1,0 +1,10 @@
+Host github.com
+    User git
+    ForwardAgent yes
+
+Host hpc_dtu
+    HostName login.hpc.dtu.dk
+    User s214960
+    ForwardAgent yes
+
+

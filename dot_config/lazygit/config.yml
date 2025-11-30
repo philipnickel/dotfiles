@@ -4,4 +4,4 @@ notARepository: 'skip'
 
 gui:
   # Show command log
-  showCommandLog: false
+  showCommandLog: true
