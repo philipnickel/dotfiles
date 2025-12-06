@@ -5,13 +5,8 @@ return {
     "lervag/vimtex",
     ft = "tex",
     config = function()
-      -- Viewer: Platform-specific
-{{- if eq .chezmoi.os "linux" }}
+      -- Viewer: zathura with synctex (all platforms)
       vim.g.vimtex_view_method = "zathura"
-{{- else }}
-      vim.g.vimtex_view_method = "sioyek"
-      vim.g.vimtex_view_sioyek_exe = "opusreader"
-{{- end }}
 
       -- Compiler: latexmk with build directory
       vim.g.vimtex_compiler_latexmk = {
