@@ -1,0 +1,15 @@
+# Configuration for Yazi (https://github.com/sxyazi/yazi)
+
+[mgr]
+# Ratio of the three panes: [Parent, Current, Preview]
+# Increasing the last number gives more space to the preview pane.
+ratio = [1, 2, 3]
+
+[preview]
+# Increase maximum dimensions for higher quality previews
+max_width  = 2000
+max_height = 2000
+
+# Improve image scaling quality
+image_filter = "lanczos3"
+image_quality = 90

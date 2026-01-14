@@ -2,7 +2,7 @@
 
 #set -g default-shell /opt/homebrew/bin/fish
 
-unbind C-v
+bind -n C-v copy-mode
 bind -T root C-h copy-mode
 set-window-option mode-keys vi
 bind-key -T copy-mode-vi v send -X begin-selection
@@ -166,4 +166,3 @@ run '~/.tmux/plugins/tpm/tpm'
 # macOS: Use reattach-to-user-namespace for proper clipboard integration
 set -g default-command "reattach-to-user-namespace -l $SHELL"
 {{- end }}
-

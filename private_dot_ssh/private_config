@@ -7,4 +7,6 @@ Host hpc_dtu
     User s214960
     ForwardAgent yes
 
-
+Host homelab
+  HostName 100.75.14.19
+  User philipnickel

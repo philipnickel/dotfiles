@@ -8,15 +8,18 @@ return {
       -- Viewer: zathura with synctex (all platforms)
       vim.g.vimtex_view_method = "zathura"
 
-      -- Compiler: latexmk with build directory
+      -- Compiler: latexmk with lualatex
       vim.g.vimtex_compiler_latexmk = {
-        build_dir = "build",
+        executable = "latexmk",
         options = {
-          "-pdf",
-          "-interaction=nonstopmode",
+          "-verbose",
+          "-file-line-error",
           "-synctex=1",
-          "-quiet",
+          "-interaction=nonstopmode",
         },
+      }
+      vim.g.vimtex_compiler_latexmk_engines = {
+        _ = "-lualatex",
       }
 
       -- Disable quickfix auto-open
