@@ -37,6 +37,13 @@ function zf --description="fuzzy find with zoxide"
   zoxide query -l | fzf --height 40% --layout=reverse --ansi --preview 'tree -C {} | head -100' | read -l dir; and cd "$dir"
 end
 
+function conda-init --description="Activate miniforge conda on demand"
+  source ~/miniforge3/etc/fish/conf.d/conda.fish
+  if test (count $argv) -gt 0
+    conda activate $argv[1]
+  end
+end
+
 function zot --description="Cd to Zotero library"
   switch (uname)
     case Darwin

@@ -6,9 +6,9 @@ if status is-interactive
     set -g fish_greeting
 
     # System info on new shell
-    if type -q fastfetch
-        fastfetch
-    end
+  #if type -q fastfetch
+  #      fastfetch
+  #  end
 end
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -139,3 +139,6 @@ set -gx LUA_CPATH "$HOME/.luarocks/lib/lua/5.1/?.so;$LUA_CPATH"
 # ─────────────────────────────────────────────────────────────────────────────
 # Clear line on Ctrl-C (built-in preset binding is usually fine)
 bind --preset \cC 'cancel-commandline'
+
+# opencode
+fish_add_path /Users/philipnickel/.opencode/bin
