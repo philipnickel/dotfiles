@@ -22,17 +22,17 @@ end
 # D-Bus for zathura/vimtex synctex (macOS)
 # ─────────────────────────────────────────────────────────────────────────────
 if type -q launchctl
-    # Try launchctl getenv first
+    # Ensure dbus-daemon is running (no-op if already started)
+    if not pgrep -q dbus-daemon
+        launchctl kickstart gui/(id -u)/org.freedesktop.dbus-session 2>/dev/null
+    end
+    # Resolve the socket path via launchctl
     set -l dbus_socket (launchctl getenv DBUS_LAUNCHD_SESSION_BUS_SOCKET 2>/dev/null)
-    # Fallback: parse launchctl print output
     if test -z "$dbus_socket"
         set dbus_socket (launchctl print gui/(id -u)/org.freedesktop.dbus-session 2>/dev/null | string match -r 'DBUS_LAUNCHD_SESSION_BUS_SOCKET => (.+)' | tail -1)
     end
-    # Fallback: find socket via lsof (slower but reliable)
-    if test -z "$dbus_socket"; and pgrep -q dbus-daemon
-        set dbus_socket (lsof -c dbus-daemon 2>/dev/null | string match -r '/private/tmp/.+/unix_domain_listener' | head -1)
-    end
-    if test -n "$dbus_socket"
+    # Validate the socket is actually connectable
+    if test -n "$dbus_socket"; and test -S "$dbus_socket"
         set -gx DBUS_SESSION_BUS_ADDRESS "unix:path=$dbus_socket"
     end
 end

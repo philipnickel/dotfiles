@@ -129,3 +129,8 @@ cmd-alt-ctrl-h = ['join-with left', 'mode main']
 cmd-alt-ctrl-j = ['join-with down', 'mode main']
 cmd-alt-ctrl-k = ['join-with up', 'mode main']
 cmd-alt-ctrl-l = ['join-with right', 'mode main']
+
+# Focus zathura when it opens (spawned by vimtex as a background process)
+[[on-window-detected]]
+if.app-name-regex-substring = 'zathura'
+run = 'layout tiling'

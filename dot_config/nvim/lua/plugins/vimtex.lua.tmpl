@@ -1,12 +1,12 @@
--- Simplified VimTeX config
+-- VimTeX config
 return {
-  -- VimTeX: LaTeX compilation & viewing
   {
     "lervag/vimtex",
     ft = "tex",
     config = function()
-      -- Viewer: zathura with synctex (all platforms)
-      vim.g.vimtex_view_method = "zathura"
+      -- Viewer: zathura_simple (recommended for macOS, see :h vimtex-faq-zathura-macos)
+      -- Synctex requires dbus on macOS (brew install dbus; brew services start dbus)
+      vim.g.vimtex_view_method = "zathura_simple"
 
       -- Compiler: latexmk with lualatex
       vim.g.vimtex_compiler_latexmk = {
