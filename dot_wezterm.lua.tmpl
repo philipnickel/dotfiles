@@ -21,9 +21,9 @@ config.send_composed_key_when_left_alt_is_pressed = true
 config.send_composed_key_when_right_alt_is_pressed = false
 -- Window appearance
 config.window_decorations = "RESIZE"
-config.window_background_opacity = 0.0
+config.window_background_opacity = 0.4
 {{- if eq .chezmoi.os "darwin" }}
-config.macos_window_background_blur = 60
+config.macos_window_background_blur = 70
 {{- end }}
 config.initial_rows = 50
 
@@ -39,7 +39,7 @@ config.hide_tab_bar_if_only_one_tab = true
 -- Make tab bar match window background
 config.colors = {
 	tab_bar = {
-		background = "rgba(0, 0, 0, 0.0)",
+		background = "rgba(48, 52, 70, 0.75)",
 	},
 }
 
