@@ -12,3 +12,5 @@
 	hotfix = hotfix/
 	support = support/
 	versiontag = 
+[pager]
+	diff = diffnav

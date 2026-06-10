@@ -1,9 +1,70 @@
 Host github.com
     User git
     ForwardAgent yes
-
 Host dtu
     HostName login.hpc.dtu.dk
     User s214960
     ForwardAgent yes
+    IdentityFile ~/.ssh/id_ed25519
+    ControlMaster auto
+    ControlPath ~/.ssh/sockets/%C
+    ControlPersist 4h
+
+Host gracy
+    HostName 10.66.0.88
+    User s214960
+    ProxyJump dtu
+    ControlMaster auto
+    ControlPath ~/.ssh/sockets/%C
+    ControlPersist 4h
+
+Host gracyb
+    HostName 10.66.0.89
+    User s214960
+    ProxyJump dtu
+    ControlMaster auto
+    ControlPath ~/.ssh/sockets/%C
+    ControlPersist 4h
+
+
+Host verda-mpm
+  HostName 65.109.75.55
+  User root
+  IdentityFile ~/.ssh/id_ed25519
+  ServerAliveInterval 60
+
+Host verda-a100
+  HostName 65.109.75.17
+  User root
+  IdentityFile ~/.ssh/id_ed25519
+  ServerAliveInterval 60
+
+Host verda-h100
+  HostName 86.38.238.197
+  User root
+  IdentityFile ~/.ssh/id_ed25519
+  ServerAliveInterval 60
+
+Host verda-b300
+  HostName 86.38.238.233
+  User root
+  IdentityFile ~/.ssh/id_ed25519
+  ServerAliveInterval 60
+
+Host vast
+  HostName ssh3.vast.ai
+  User root
+  Port 11841
+  LocalForward 8080 localhost:8080
+  ServerAliveInterval 60
+
+Host vast-ger
+  HostName ssh4.vast.ai
+  User root
+  Port 13363
+  LocalForward 8080 localhost:8080
+  ServerAliveInterval 60
+
+
+
 

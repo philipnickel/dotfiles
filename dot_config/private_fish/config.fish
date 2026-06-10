@@ -142,3 +142,27 @@ bind --preset \cC 'cancel-commandline'
 
 # opencode
 fish_add_path /Users/philipnickel/.opencode/bin
+
+
+# Added by Antigravity CLI installer
+set -gx PATH "/Users/philipnickel/.local/bin" $PATH
+
+# Added by Antigravity IDE
+fish_add_path /Users/philipnickel/.antigravity-ide/antigravity-ide/bin
+
+# Expose gh CLI token to MCP servers (e.g. github plugin)
+set -gx GITHUB_PERSONAL_ACCESS_TOKEN (gh auth token)
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+if test -f /Users/philipnickel/miniforge3-dtu/bin/conda
+    eval /Users/philipnickel/miniforge3-dtu/bin/conda "shell.fish" "hook" $argv | source
+else
+    if test -f "/Users/philipnickel/miniforge3-dtu/etc/fish/conf.d/conda.fish"
+        . "/Users/philipnickel/miniforge3-dtu/etc/fish/conf.d/conda.fish"
+    else
+        set -x PATH "/Users/philipnickel/miniforge3-dtu/bin" $PATH
+    end
+end
+# <<< conda initialize <<<
+
